@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>فرن كربنة ثفل القهوة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: blueprint-style technical sheet. Sticky tab bar, one panel per topic; drawings and the 3D model lead, tables carry the build detail. */
+:root{
+  --bg:#eef1f3; --panel:#ffffff; --ink:#14202b; --muted:#53636f; --line:#c9d2d9;
+  --ember:#c2410c; --steel:#2f6f8f; --good:#1f7a4d; --warn:#a15c00;
+  --brick:#b9573a; --cavity:#e9dfd6; --metal:#8c9aa6; --metal-dark:#5d6b76; --pipe:#c9a93d; --water:#4b9bd8; --slab:#aab2b8; --stage:#dde4e9;
+  --font-display:'Cairo','Segoe UI',Tahoma,sans-serif;
+  --font-body:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f161c; --panel:#18222a; --ink:#e6edf2; --muted:#9fb0bc; --line:#2d3b45;
+    --ember:#ff8a4c; --steel:#6fb4d2; --good:#4cc38a; --warn:#e0a53a;
+    --brick:#a24a30; --cavity:#2a2420; --metal:#7d8c98; --metal-dark:#a8b6c1; --pipe:#d4b84c; --water:#5aa9e6; --slab:#46525b; --stage:#121b22;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f161c; --panel:#18222a; --ink:#e6edf2; --muted:#9fb0bc; --line:#2d3b45;
+  --ember:#ff8a4c; --steel:#6fb4d2; --good:#4cc38a; --warn:#e0a53a;
+  --brick:#a24a30; --cavity:#2a2420; --metal:#7d8c98; --metal-dark:#a8b6c1; --pipe:#d4b84c; --water:#5aa9e6; --slab:#46525b; --stage:#121b22;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);line-height:1.75;font-size:16px}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;line-height:1.35;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header{padding:28px 0 14px}
+header h1{font-size:clamp(26px,5vw,38px);font-weight:800}
+header p{margin:6px 0 0;color:var(--muted);max-width:66ch}
+.note{margin:14px 0 0;padding:10px 14px;border-inline-start:4px solid var(--warn);background:var(--panel);font-size:14px;color:var(--muted)}
+nav{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 0;scrollbar-width:thin}
+.tab{flex:0 0 auto;font:inherit;font-weight:500;font-size:15px;padding:8px 16px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:6px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--steel);outline-offset:2px}
+main{padding:22px 0 60px}
+section[hidden]{display:none}
+h2{font-size:24px;font-weight:800;margin-bottom:6px}
+h2.sub{margin-top:30px}
+h3{font-size:17px;font-weight:600}
+.lead{color:var(--muted);margin:0 0 16px;max-width:70ch}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px}
+.stack{display:grid;gap:16px}
+.grid2{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:820px){.grid2{grid-template-columns:1fr 1fr}}
+.flow{list-style:none;margin:0;padding:0;counter-reset:s}
+.flow li{counter-increment:s;position:relative;padding:0 46px 18px 0}
+.flow li::before{content:counter(s);position:absolute;right:0;top:0;width:32px;height:32px;border-radius:50%;background:var(--steel);color:#fff;display:grid;place-items:center;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
+.flow li::after{content:"";position:absolute;right:15px;top:34px;bottom:2px;width:2px;background:var(--line)}
+.flow li:last-child{padding-bottom:0}.flow li:last-child::after{display:none}
+.flow.gas li::before{background:var(--ember)}
+.flow b{display:block;font-weight:600}
+.flow span{color:var(--muted);font-size:14.5px}
+.drawing{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}
+.drawing svg{display:block;width:100%;min-width:560px;height:auto}
+.drawing h3{margin:0 0 6px}
+svg text{font-family:var(--font-body);fill:var(--ink)}
+.dim{stroke:var(--muted);stroke-width:1;fill:none}
+.dimtxt{font-size:12px;fill:var(--muted)}
+.mk circle{fill:var(--ink)}.mk text{fill:var(--bg);font-size:11px;font-weight:600;text-anchor:middle;dominant-baseline:central}
+.legend{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:6px;grid-template-columns:1fr}
+@media(min-width:700px){.legend{grid-template-columns:1fr 1fr}}
+.legend button{width:100%;display:flex;gap:10px;align-items:flex-start;text-align:start;font:inherit;font-size:14.5px;padding:8px 10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:6px;cursor:pointer}
+.legend button[aria-pressed="true"]{border-color:var(--ember);box-shadow:inset 0 0 0 1px var(--ember)}
+.legend .n{flex:0 0 24px;height:24px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:12px;font-weight:600}
+.info{margin-top:12px;min-height:3.6em}
+#stage{position:relative;direction:ltr;height:clamp(340px,62vw,560px);background:radial-gradient(ellipse at 50% 40%,var(--panel),var(--stage));border:1px solid var(--line);border-radius:8px;overflow:hidden}
+#stage canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+#stage canvas:active{cursor:grabbing}
+#stage-msg{position:absolute;inset:0;display:grid;place-items:center;padding:20px;text-align:center;color:var(--muted);direction:rtl}
+#stage-msg[hidden]{display:none}
+.pin{position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;border:2px solid var(--bg);background:var(--ink);color:var(--bg);font:600 12px var(--font-body);display:grid;place-items:center;cursor:pointer;padding:0;will-change:transform}
+.pin[aria-pressed="true"]{background:var(--ember);color:#fff}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.btn{font:inherit;font-size:14.5px;padding:7px 14px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:6px;cursor:pointer}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.btn.primary{background:var(--steel);color:#fff;border-color:var(--steel)}
+.hint{font-size:13.5px;color:var(--muted);margin:8px 0 0}
+.tiles{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);margin-bottom:18px}
+@media(min-width:760px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.tile b{display:block;font:800 26px var(--font-display);font-variant-numeric:tabular-nums;color:var(--steel)}
+.tile span{font-size:13.5px;color:var(--muted)}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14.5px}
+th,td{text-align:start;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-display);font-size:14px;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600}
+td.num,th.num{font-variant-numeric:tabular-nums}
+tr.total td{background:var(--bg);font-weight:600}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+ul.plain{margin:8px 0 0;padding-inline-start:20px}
+ul.plain li{margin:4px 0}
+.phase{display:grid;gap:4px;padding:12px 0;border-bottom:1px solid var(--line)}
+.phase:last-child{border-bottom:0}
+.phase h3{font-size:17px}
+.phase small{color:var(--ember);font-weight:600}
+.chk{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.chk label{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);background:var(--panel);border-radius:6px;cursor:pointer}
+.chk input{width:20px;height:20px;margin-top:4px;accent-color:var(--good);flex:0 0 auto}
+.chk input:checked + span{color:var(--muted);text-decoration:line-through}
+.prog{margin:10px 0 16px;font-weight:600}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:var(--good);transition:width .25s}
+.chart text{font-size:12px}
+textarea{width:100%;font:inherit;font-size:14px;line-height:1.7;padding:12px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);resize:vertical}
+.callout{padding:12px 14px;border-inline-start:4px solid var(--ember);background:var(--panel);border-radius:0 6px 6px 0}
+.callout b{color:var(--ember)}
+.tiles3{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);margin:14px 0}
+@media(min-width:760px){.tiles3{grid-template-columns:repeat(3,1fr)}}
+.rng{width:100%;accent-color:var(--ember);margin:6px 0 10px}
+.rngrow{display:flex;justify-content:space-between;gap:10px;font-weight:600;flex-wrap:wrap}
+.sim svg{min-width:0!important}
+.warnbox{margin-top:12px;padding:10px 14px;border-radius:6px;background:var(--panel);border:1px solid var(--line);border-inline-start:4px solid var(--steel)}
+.warnbox.bad{border-inline-start-color:var(--ember)}
+.stage-msg{position:absolute;inset:0;display:grid;place-items:center;padding:20px;text-align:center;color:var(--muted);direction:rtl}
+.stage-msg[hidden]{display:none}
+#stage2 canvas{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1>فرن كربنة ثفل القهوة</h1>
+  <p>فرن ارتجاع مسخَّن من الخارج بسعة 500 كغ ثفل مجفف في الدفعة، مع مخططات وأبعاد وحسابات وجدول قص وتحكم واختبار تشغيل، تكفي لطلب عروض من الورش.</p>
+  <p class="note">الأرقام تصميم مبدئي مبني على تقديرات يذكر كل جدول افتراضاتها. لا تُصنَّع قبل مراجعة مهندس ميكانيكي أو حراري، ولا سيما الوعاء والمكثف وصمام الأمان.</p>
+</header>
+
+<nav aria-label="أقسام الصفحة"><div class="wrap"><div class="tabs" role="tablist" id="tabs"></div></div></nav>
+
+<main class="wrap">
+
+<!-- ================= FLOW / DRAWINGS ================= -->
+<section id="flow" data-title="المخطط" hidden>
+  <h2>مخطط العملية</h2>
+  <p class="lead">خطان يعملان معًا: خط الثفل من الاستلام إلى الفحم، وخط الغاز الذي يخرج من الوعاء ثم يعود ليسخّنه.</p>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-bottom:14px">خط الثفل</h3>
+      <ol class="flow">
+        <li><b>ثفل رطب</b><span>رطوبة نحو 57% من المقاهي</span></li>
+        <li><b>تجفيف إلى 10% رطوبة</b><span>يقلل البخار داخل الوعاء ويقصّر الدورة</span></li>
+        <li><b>تعبئة الوعاء</b><span>صواني بسماكة 5 إلى 8 سم، نحو 500 كغ، دون تجاوز 55% من الحجم</span></li>
+        <li><b>إغلاق وطرد الهواء</b><span>التنفيس مفتوح حتى يخرج بخار ثابت، ثم يُغلق</span></li>
+        <li><b>كربنة عند 400 م°</b><span>ثبات لمدة ساعة (تُجرَّب 350 و450 أيضًا)</span></li>
+        <li><b>تبريد مغلق</b><span>حتى أقل من 100 م° دون دخول هواء</span></li>
+        <li><b>تفريغ في حاوية معدنية مغلقة</b><span>تبقى مغلقة حتى يبرد الفحم تمامًا</span></li>
+        <li><b>طحن وخلط وكبس</b><span>60 mesh، نشا نحو 10%، ثم بثق وتجفيف القوالب وتعبئة</span></li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:14px">خط الغاز</h3>
+      <ol class="flow gas">
+        <li><b>غازات وأبخرة من الوعاء</b><span>تبدأ من نحو 200 م°</span></li>
+        <li><b>صمام عزل حراري ثم أنبوب معزول</b><span>ميل لا يقل عن 3% نحو المكثف حتى لا يسدّه القطران</span></li>
+        <li><b>مكثف أنبوبي بماء التبريد</b><span>نحو 14 م² مساحة تبريد (انظر الحسابات)</span></li>
+        <li><b>خزان القطران وخل الخشب</b><span>0.4 م³، يُفرَّغ بعد كل دفعة إلى براميل مغلقة</span></li>
+        <li><b>مصيدة ماء وكاتم لهب</b><span>تمنع رجوع اللهب إلى الوعاء</span></li>
+        <li><b>الشعلة تحت الوعاء</b><span>تبدأ بغاز LPG ثم تعمل على غاز الكربنة</span></li>
+        <li><b>المدخنة</b><span>ارتفاع 4 م لتصريف الغاز المحترق</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <h2 class="sub">المناظر الهندسية</h2>
+  <p class="lead">ثلاثة مناظر بالأرقام نفسها المستخدمة في النموذج ثلاثي الأبعاد. الأبعاد بالمليمتر.</p>
+  <div class="stack">
+    <div class="drawing">
+    <h3>1. منظر أمامي (مقطع)</h3>
+    <svg viewBox="0 0 680 466" role="img" aria-label="منظر أمامي للفرن مع الوعاء والمكثف والمدخنة">
+      <line x1="80" y1="410" x2="660" y2="410" stroke="var(--muted)" stroke-width="1"/>
+      <rect x="106" y="410" width="527" height="10" fill="var(--slab)"/>
+      <rect x="238" y="240" width="204" height="170" fill="var(--brick)"/>
+      <rect x="255" y="257" width="170" height="136" fill="var(--cavity)"/>
+      <rect x="291" y="372" width="13" height="21" fill="var(--metal-dark)"/>
+      <rect x="401" y="372" width="13" height="21" fill="var(--metal-dark)"/>
+      <rect x="259" y="270" width="196" height="102" rx="10" fill="var(--metal)" stroke="var(--ink)" stroke-width="1.5"/>
+      <g stroke="var(--ink)" stroke-opacity=".35"><line x1="297" y1="270" x2="297" y2="372"/><line x1="357" y1="270" x2="357" y2="372"/><line x1="416" y1="270" x2="416" y2="372"/></g>
+      <g stroke="var(--ink)" stroke-opacity=".5" stroke-dasharray="4 3"><line x1="270" y1="296" x2="446" y2="296"/><line x1="270" y1="318" x2="446" y2="318"/><line x1="270" y1="340" x2="446" y2="340"/></g>
+      <text x="357" y="361" font-size="12" text-anchor="middle">ثفل مجفف 500 كغ على صواني</text>
+      <rect x="455" y="263" width="7" height="115" fill="var(--metal-dark)" stroke="var(--ink)"/>
+      <path d="M221 385 H323" stroke="var(--pipe)" stroke-width="4" fill="none"/>
+      <rect x="316" y="385" width="14" height="8" fill="var(--ink)"/>
+      <path d="M316 385 Q320 366 323 358 Q327 372 330 385 Z" fill="var(--ember)"/>
+      <path d="M289 270 V96 L170 104 V155" stroke="var(--pipe)" stroke-width="10" stroke-linejoin="round" fill="none"/>
+      <rect x="283" y="214" width="12" height="14" fill="var(--ember)"/>
+      <rect x="329" y="219" width="5" height="51" fill="var(--warn)"/><rect x="325" y="213" width="13" height="7" fill="var(--ember)"/>
+      <line x1="378" y1="270" x2="378" y2="215" stroke="var(--ember)" stroke-width="2"/><rect x="373" y="207" width="10" height="8" fill="var(--ember)"/>
+      <rect x="394" y="70" width="28" height="170" fill="var(--metal)" stroke="var(--ink)" stroke-width="1.2"/><rect x="390" y="66" width="36" height="4" fill="var(--metal-dark)"/>
+      <rect x="151" y="155" width="38" height="187" fill="var(--steel)" stroke="var(--ink)" stroke-width="1.2"/>
+      <g stroke="var(--ink)" stroke-opacity=".3"><line x1="160" y1="160" x2="160" y2="337"/><line x1="170" y1="160" x2="170" y2="337"/><line x1="180" y1="160" x2="180" y2="337"/></g>
+      <rect x="136" y="342" width="68" height="68" fill="var(--metal-dark)" stroke="var(--ink)" stroke-width="1.2"/>
+      <rect x="209" y="368" width="24" height="42" fill="var(--panel)" stroke="var(--ink)" stroke-width="1.2"/>
+      <rect x="210" y="388" width="22" height="21" fill="var(--water)" opacity=".8"/>
+      <path d="M189 300 H221 V368" stroke="var(--pipe)" stroke-width="3" stroke-dasharray="6 4" fill="none"/>
+      <path d="M151 325 H119 M151 189 H119" stroke="var(--water)" stroke-width="4"/>
+      <text x="115" y="321" font-size="11" text-anchor="end">ماء داخل</text>
+      <text x="115" y="185" font-size="11" text-anchor="end">ماء خارج</text>
+      <rect x="476" y="351" width="85" height="59" fill="var(--metal-dark)" stroke="var(--ink)" stroke-width="1.2"/><line x1="476" y1="359" x2="561" y2="359" stroke="var(--ink)"/>
+      <rect x="565" y="291" width="51" height="94" fill="#2d3a45" stroke="var(--ink)"/><rect x="573" y="300" width="35" height="20" fill="#5fd39a"/><path d="M573 385 V410 M607 385 V410" stroke="var(--metal-dark)" stroke-width="3"/>
+      <g class="dim"><line x1="238" y1="432" x2="442" y2="432"/><line x1="238" y1="426" x2="238" y2="438"/><line x1="442" y1="426" x2="442" y2="438"/>
+      <line x1="436" y1="70" x2="436" y2="240"/><line x1="430" y1="70" x2="442" y2="70"/>
+      <line x1="259" y1="452" x2="455" y2="452"/><line x1="259" y1="446" x2="259" y2="458"/><line x1="455" y1="446" x2="455" y2="458"/></g>
+      <text class="dimtxt" x="340" y="446" text-anchor="middle">غرفة الاحتراق 2400</text>
+      <text class="dimtxt" x="357" y="464" text-anchor="middle">الوعاء: طول 2300 · قطر 1200</text>
+      <text class="dimtxt" x="446" y="150" text-anchor="start">ارتفاع 4000</text>
+      <text class="dimtxt" x="60" y="130" text-anchor="start">ارتفاع المكثف 2200</text>
+      <g class="mk" id="mk-elev"></g>
+    </svg>
+    </div>
+
+    <div class="drawing">
+    <h3>2. مسقط أفقي</h3>
+    <svg viewBox="0 0 680 340" role="img" aria-label="مسقط أفقي للفرن">
+      <rect x="106" y="43" width="527" height="254" fill="var(--slab)"/>
+      <rect x="238" y="85" width="204" height="170" fill="var(--brick)"/>
+      <rect x="255" y="102" width="170" height="136" fill="var(--cavity)"/>
+      <rect x="259" y="119" width="196" height="102" rx="8" fill="var(--metal)" stroke="var(--ink)" stroke-width="1.5"/>
+      <g stroke="var(--ink)" stroke-opacity=".35"><line x1="297" y1="119" x2="297" y2="221"/><line x1="357" y1="119" x2="357" y2="221"/><line x1="416" y1="119" x2="416" y2="221"/></g>
+      <rect x="455" y="112" width="7" height="116" fill="var(--metal-dark)" stroke="var(--ink)"/>
+      <circle cx="170" cy="170" r="34" fill="var(--metal-dark)" stroke="var(--ink)"/>
+      <circle cx="170" cy="170" r="19" fill="var(--steel)" stroke="var(--ink)"/>
+      <circle cx="221" cy="170" r="12" fill="var(--panel)" stroke="var(--ink)"/>
+      <path d="M289 161 H170" stroke="var(--pipe)" stroke-width="8"/>
+      <path d="M189 170 H221" stroke="var(--pipe)" stroke-width="3" stroke-dasharray="6 4"/>
+      <path d="M221 170 H316" stroke="var(--pipe)" stroke-width="4"/>
+      <circle cx="323" cy="170" r="7" fill="var(--ember)"/>
+      <circle cx="331" cy="170" r="4" fill="var(--warn)"/><circle cx="378" cy="170" r="3.5" fill="var(--ember)"/>
+      <circle cx="289" cy="161" r="6" fill="var(--ember)"/>
+      <circle cx="408" cy="136" r="14" fill="var(--metal)" stroke="var(--ink)"/>
+      <rect x="476" y="136" width="85" height="68" fill="var(--metal-dark)" stroke="var(--ink)"/>
+      <rect x="565" y="234" width="51" height="26" fill="#2d3a45" stroke="var(--ink)"/>
+      <g class="dim"><line x1="106" y1="318" x2="633" y2="318"/><line x1="106" y1="312" x2="106" y2="324"/><line x1="633" y1="312" x2="633" y2="324"/>
+      <line x1="92" y1="43" x2="92" y2="297"/><line x1="86" y1="43" x2="98" y2="43"/><line x1="86" y1="297" x2="98" y2="297"/></g>
+      <text class="dimtxt" x="370" y="334" text-anchor="middle">أساس الخرسانة 6200</text>
+      <text class="dimtxt" x="84" y="172" text-anchor="end">3000</text>
+      <text class="dimtxt" x="340" y="80" text-anchor="middle">غرفة الاحتراق 2400 × 2000</text>
+      <g class="mk" id="mk-plan"></g>
+    </svg>
+    <p class="hint">خط الغاز الخارج من الوعاء وخط عودة الغاز إلى الشعلة يقعان في المستوى نفسه، ورُسما متباعدين قليلًا للتوضيح.</p>
+    </div>
+
+    <div class="drawing">
+    <h3>3. منظر من جهة الباب</h3>
+    <svg viewBox="0 0 440 460" role="img" aria-label="منظر الفرن من جهة الباب" style="max-width:520px;margin-inline:auto">
+      <rect x="92" y="400" width="255" height="10" fill="var(--slab)"/>
+      <rect x="216" y="86" width="8" height="144" fill="var(--pipe)"/>
+      <rect x="240" y="60" width="28" height="170" fill="var(--metal)" stroke="var(--ink)"/>
+      <rect x="135" y="230" width="170" height="170" fill="var(--brick)" stroke="var(--ink)"/>
+      <circle cx="220" cy="311" r="58" fill="var(--metal-dark)" stroke="var(--ink)" stroke-width="1.5"/>
+      <circle cx="220" cy="311" r="46" fill="var(--metal)" stroke="var(--ink)" stroke-opacity=".5"/>
+      <g id="bolts" fill="var(--ember)"></g>
+      <rect x="212" y="303" width="16" height="16" rx="3" fill="var(--ink)"/>
+      <rect x="186" y="341" width="68" height="59" fill="var(--metal-dark)" stroke="var(--ink)"/><line x1="186" y1="349" x2="254" y2="349" stroke="var(--ink)"/>
+      <rect x="131" y="281" width="26" height="94" fill="#2d3a45" stroke="var(--ink)"/><rect x="134" y="290" width="20" height="14" fill="#5fd39a"/>
+      <g class="dim"><line x1="135" y1="422" x2="305" y2="422"/><line x1="135" y1="416" x2="135" y2="428"/><line x1="305" y1="416" x2="305" y2="428"/>
+      <line x1="322" y1="60" x2="322" y2="400"/><line x1="316" y1="60" x2="328" y2="60"/><line x1="316" y1="400" x2="328" y2="400"/></g>
+      <text class="dimtxt" x="220" y="440" text-anchor="middle">عرض الغرفة 2000</text>
+      <text class="dimtxt" x="330" y="240" text-anchor="start">4000</text>
+      <text class="dimtxt" x="220" y="235" text-anchor="middle" style="fill:#fff">فلنجة Ø1360 · 12 × M16</text>
+      <g class="mk" id="mk-end"></g>
+    </svg>
+    </div>
+  </div>
+  <ul class="legend" id="legend-flow"></ul>
+</section>
+
+<!-- ================= 3D ================= -->
+<section id="model" data-title="نموذج 3D" hidden>
+  <h2>النموذج ثلاثي الأبعاد</h2>
+  <p class="lead">اسحب للتدوير، وبإصبعين أو بعجلة الفأرة للتقريب. اضغط على أي رقم لتعرف وظيفة الجزء.</p>
+  <div class="tools">
+    <button class="btn" id="b-clip" aria-pressed="true">مقطع نصفي</button>
+    <button class="btn" id="b-cut" aria-pressed="false">جدران شفافة</button>
+    <button class="btn" id="b-pins" aria-pressed="true">الأرقام</button>
+    <button class="btn" id="b-spin" aria-pressed="false">دوران تلقائي</button>
+    <button class="btn" id="b-zin">تقريب</button>
+    <button class="btn" id="b-zout">تبعيد</button>
+    <button class="btn" id="b-reset">إعادة الضبط</button>
+  </div>
+  <div id="stage"><div id="stage-msg" hidden>تعذّر تشغيل العرض ثلاثي الأبعاد على هذا الجهاز أو في هذا المتصفح. المناظر في تبويب «المخطط» تحوي الأجزاء نفسها.</div></div>
+  <div class="card info" id="info" aria-live="polite"><b>اختر رقمًا</b> من النموذج أو من القائمة لعرض وظيفة الجزء.</div>
+  <ul class="legend" id="legend-3d"></ul>
+</section>
+
+<!-- ================= LINE 5-6-7 ================= -->
+<section id="line" data-title="خط التكثيف 5 · 6 · 7" hidden>
+  <h2>أنبوب الغاز والمكثف والخزان</h2>
+  <p class="lead">الأجزاء 5 و6 و7 تعمل كسلسلة واحدة: تأخذ الغاز الساخن من الوعاء، وتفصل منه القطران والماء، وتعيد ما يحترق إلى الشعلة. حرّك الزمن لترى ماذا يحدث في كل نقطة خلال الدفعة.</p>
+  <div class="card sim">
+    <div class="tools">
+      <button class="btn primary" id="b-play">تشغيل</button>
+      <button class="btn" id="b-lreset">من البداية</button>
+      <button class="btn" id="b-ins" aria-pressed="true">عزل الأنبوب</button>
+    </div>
+    <div class="rngrow"><label for="tsl">زمن الدفعة</label><span id="tlabel">2.5 ساعة</span></div>
+    <input class="rng" type="range" id="tsl" min="0" max="11" step="0.05" value="2.5">
+    <div class="drawing" style="padding:6px">
+    <svg viewBox="0 0 680 400" role="img" aria-label="رسم متحرك لمسار الغاز من الوعاء إلى المكثف والخزان والشعلة">
+      <line x1="30" y1="380" x2="670" y2="380" stroke="var(--muted)"/>
+      <rect x="445" y="190" width="225" height="165" fill="var(--brick)"/>
+      <rect x="458" y="203" width="199" height="139" fill="var(--cavity)"/>
+      <rect x="470" y="215" width="175" height="95" rx="10" fill="var(--metal)" stroke="var(--ink)" stroke-width="1.5"/>
+      <text x="557" y="244" text-anchor="middle" font-size="12">وعاء الكربنة</text>
+      <text id="svT" x="557" y="276" text-anchor="middle" font-size="22" font-weight="700">25°</text>
+      <rect x="552" y="338" width="14" height="7" fill="var(--ink)"/>
+      <path id="flame" d="M552 338 Q556 320 559 312 Q563 326 566 338 Z" fill="var(--ember)"/>
+      <path id="insul" d="M490 215 V60 L300 72 V120" stroke="#d9c46a" stroke-width="18" stroke-linejoin="round" fill="none" opacity=".55"/>
+      <path d="M490 215 V60 L300 72 V120" stroke="var(--pipe)" stroke-width="9" stroke-linejoin="round" fill="none"/>
+      <rect id="valve" x="482" y="190" width="16" height="16" fill="var(--ember)" stroke="var(--ink)"/>
+      <rect x="268" y="120" width="64" height="170" fill="var(--water)" opacity=".28" stroke="var(--steel)" stroke-width="2"/>
+      <rect x="272" y="120" width="56" height="170" fill="var(--steel)" opacity=".85"/>
+      <g stroke="var(--panel)" stroke-opacity=".55"><line x1="282" y1="124" x2="282" y2="286"/><line x1="292" y1="124" x2="292" y2="286"/><line x1="300" y1="124" x2="300" y2="286"/><line x1="308" y1="124" x2="308" y2="286"/><line x1="318" y1="124" x2="318" y2="286"/></g>
+      <path d="M236 270 H268" stroke="var(--water)" stroke-width="4"/><path d="M236 140 H268" stroke="var(--water)" stroke-width="4"/>
+      <text x="232" y="266" font-size="11" text-anchor="end">ماء داخل</text><text id="svW" x="232" y="136" font-size="11" text-anchor="end">ماء خارج</text>
+      <rect x="250" y="290" width="100" height="82" fill="var(--panel)" stroke="var(--ink)" stroke-width="1.5"/>
+      <rect id="liqA" x="251" y="372" width="98" height="0" fill="#c9923a" opacity=".85"/>
+      <rect id="liqT" x="251" y="372" width="98" height="0" fill="#2b1a10"/>
+      <path d="M350 300 H400 V335" stroke="var(--pipe)" stroke-width="3" fill="none"/>
+      <rect x="380" y="320" width="40" height="52" fill="var(--panel)" stroke="var(--ink)" stroke-width="1.5"/>
+      <rect x="381" y="342" width="38" height="29" fill="var(--water)" opacity=".8"/>
+      <path d="M420 362 H560 V345" stroke="var(--pipe)" stroke-width="3" fill="none"/>
+      <path id="gp" d="M490 215 V60 L300 72 V300 H400 V362 H560 V345" fill="none" stroke="none"/>
+      <g id="pg"></g>
+      <text id="svP" x="400" y="40" text-anchor="middle" font-size="14" font-weight="600">—</text>
+      <text id="svO" x="362" y="282" font-size="13" font-weight="600">—</text>
+      <text id="svR" x="330" y="96" font-size="13" font-weight="700" fill="var(--ember)" style="fill:var(--ember)"></text>
+      <text x="300" y="396" text-anchor="middle" font-size="12" style="fill:var(--muted)">خزان القطران</text>
+      <text x="400" y="396" text-anchor="middle" font-size="12" style="fill:var(--muted)">مصيدة</text>
+      <text x="557" y="396" text-anchor="middle" font-size="12" style="fill:var(--muted)">الشعلة</text>
+      <g class="mk"><circle cx="395" cy="22" r="9"/><text x="395" y="22">5</text><circle cx="300" cy="205" r="9"/><text x="300" y="205">6</text><circle cx="300" cy="332" r="9"/><text x="300" y="332">7</text></g>
+    </svg>
+    </div>
+    <div class="tiles3">
+      <div class="tile"><b id="v-tr">25</b><span>حرارة الوعاء (م°)</span></div>
+      <div class="tile"><b id="v-tp">—</b><span>حرارة الغاز في الأنبوب (م°)</span></div>
+      <div class="tile"><b id="v-to">—</b><span>حرارة الغاز بعد المكثف (م°)</span></div>
+      <div class="tile"><b id="v-rate">0</b><span>تدفق الأبخرة (كغ/ساعة)</span></div>
+      <div class="tile"><b id="v-liq">0</b><span>سوائل في الخزان (كغ)</span></div>
+      <div class="tile"><b id="v-tar">0</b><span>منها قطران (كغ)</span></div>
+    </div>
+    <div class="warnbox" id="stat"></div>
+    <p class="hint">النموذج تقريبي ومبني على افتراضات الحسابات: رطوبة 50 كغ تتبخر بين 100 و130 م°، ونحو 305 كغ من المواد المتطايرة تخرج بين 200 م° ونهاية الثبات، يتكثف منها نحو 40% وتبقى البقية غازًا. هذه أرقام للتصور، وتستبدلها قياسات تجربتك.</p>
+  </div>
+
+  <h2 class="sub">رحلة الغاز من البداية إلى النهاية</h2>
+  <div class="tblwrap"><div id="t-journey"></div></div>
+
+  <h2 class="sub">كيف يعمل كل جزء</h2>
+  <div class="stack">
+    <div class="card">
+      <h3>5. أنبوب الغاز المعزول</h3>
+      <p style="margin:6px 0 0">وظيفته نقل الغاز الساخن إلى المكثف دون أن يبرد في الطريق. لو برد القطران داخله لالتصق بالجدار وضيّق المجرى حتى ينسد.</p>
+      <ul class="plain">
+        <li><b>العزل:</b> القطران الثقيل يبدأ بالتكثف تقريبًا بين 150 و250 م° (يتغير بتركيب الغاز). صوف صخري بسماكة 50 مم يبقي الجدار فوق ذلك أثناء الذروة. قدّرت فقد الحرارة بنحو 40 م° في المسار.</li>
+        <li><b>الميل:</b> 3% على الأقل نحو المكثف، أي 30 مم لكل متر. ما تكثف يسيل مع الغاز ولا يعود إلى الوعاء.</li>
+        <li><b>السرعة:</b> نحو 9 م/ث في <span class="ltr">Ø120</span>. يُفضَّل أن تكون بين 5 و15 م/ث: أقل منها يترسب القطران، وأكثر منها يجرّ الرذاذ ويُحدث ضجيجًا.</li>
+        <li><b>التمدد:</b> أنبوب طوله 4 م يتمدد من 20 إلى 350 م° بمقدار 12×10⁻⁶ × 4000 × 330 ≈ 16 مم. لذلك تُركَّب وصلة تمدد (bellows) أو دعامة منزلقة، وإلا شدّ الأنبوب فتحة الوعاء.</li>
+        <li><b>التنظيف:</b> غطاء بفلنجة عند كل زاوية لإدخال قضيب وإزالة القطران.</li>
+        <li><b>الصمام:</b> صمام العزل الحراري XV-101 قرب خروج الوعاء. مفتوح أثناء الإنتاج، ومغلق عند التبريد.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>6. المكثف الأنبوبي</h3>
+      <p style="margin:6px 0 0">يحوّل الأبخرة إلى سوائل بتبريدها بالماء. هو أهم جزء في الخط، وهو الذي يقرر كم قطرانًا يصل إلى الشعلة.</p>
+      <ul class="plain">
+        <li><b>التركيب:</b> قشرة وأنابيب عمودي. الغاز يدخل من الأعلى ويمر داخل 80 أنبوبًا <span class="ltr">Ø25 × 2200</span>، والماء حول الأنابيب من الأسفل إلى الأعلى. الغاز داخل الأنابيب يسهّل تنظيفها بقضيب.</li>
+        <li><b>النزول مع الغاز:</b> يسيل السائل على جدران الأنابيب إلى أسفل مع الغاز، فيصل إلى الخزان دون أن يعود.</li>
+        <li><b>المساحة:</b> الحمل الحراري نحو 430 ميغاجول في ساعتين، أي 55 كيلوواط. المساحة = 55000 ÷ (80 × 50) ≈ 13.8 م²، وهي ما تعطيه الأنابيب الثمانون.</li>
+        <li><b>السرعة داخل الأنابيب:</b> 0.1 م³/ث ÷ (80 × 3.8×10⁻⁴ م²) ≈ 3.3 م/ث عند الدخول، وتنخفض مع التبريد.</li>
+        <li><b>المناطق الثلاث:</b> تبريد الغاز الحار (من 340 إلى نحو 120 م°)، ثم التكثيف (نحو 120 إلى 70 م°)، ثم تبريد إضافي حتى أقل من 50 م°.</li>
+        <li><b>ماء التبريد:</b> 3 إلى 4 م³/ساعة بدائرة مغلقة. خزان 5 م³ يسخن نحو 20 م° في الدفعة.</li>
+        <li><b>المادة:</b> أنابيب <span class="ltr">304</span> أو <span class="ltr">316</span> لأن أحماض خل الخشب تأكل الفولاذ الكربوني.</li>
+        <li><b>ضباب القطران:</b> جزء من القطران يخرج قطرات دقيقة لا تلتصق بالجدار. توضع مصفاة ضباب (demister) بعد الخزان، أو وحدة تبريد ثانية، حتى لا يصل إلى الشعلة.</li>
+        <li><b>المراقبة:</b> مقياس حرارة المخرج TT-104، والهدف أقل من 50 م°. ارتفاعه يعني نقص التبريد أو اتساخ الأنابيب.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>7. خزان القطران</h3>
+      <p style="margin:6px 0 0">يجمع السائل المتكثف ويفصله عن الغاز. هو وعاء فصل (knockout drum): السائل يسقط والغاز يصعد إلى المصيدة.</p>
+      <ul class="plain">
+        <li><b>الفصل بالكثافة:</b> القطران نحو 1.1 إلى 1.2 كغ/لتر فيستقر في القاع، والسائل المائي الحمضي (خل الخشب) نحو 1.0 إلى 1.05 فيطفو فوقه. الأرقام تقديرية.</li>
+        <li><b>السعة:</b> سوائل الدفعة نحو 170 إلى 200 كغ، أي نحو 0.17 إلى 0.19 م³. الخزان 0.4 م³ فيبقى هامش نحو النصف.</li>
+        <li><b>التصريف:</b> صنبور سفلي للقطران، وآخر جانبي أعلى منه للسائل المائي، مع زجاجة مستوى ومفتاح مستوى مرتفع.</li>
+        <li><b>قاعدة أمان:</b> لا يُفتح الصنبور أثناء مرور الغاز، لأنه قابل للاشتعال وسام. يُفرَّغ بعد انتهاء الدفعة وإغلاق صمام العزل، أو يُركَّب ختم مائي على مخرج التصريف.</li>
+        <li><b>التخلص:</b> براميل مغلقة ومعلّمة، ولا يُصرَّف في المجاري. يمكن لاحقًا دراسة حرق القطران وقودًا في شعلة مناسبة، وهذا قرار يحتاج مهندسًا وجهة البيئة.</li>
+        <li><b>ملاحظة على النموذج ثلاثي الأبعاد:</b> خرج الغاز من جانب المكثف عند ارتفاع 1.3 م لتبسيط الرسم. في التنفيذ يخرج من رأس الخزان أو من الغرفة السفلية للمكثف حتى يمر كل الغاز على كامل الأنابيب.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PILOT ================= -->
+<section id="pilot" data-title="نموذج تجريبي" hidden>
+  <h2>النموذج التجريبي: برميل داخل غرفة</h2>
+  <p class="lead">تصميم مستقل عن الفرن الكبير لاختبار الفكرة قبل بناء الفرن الكامل. النار الخارجية بالبوتان تسخّن الغرفة المغلقة، والغرفة تسخّن البرميل، وغاز الكربنة يعود إلى الفجوة بينهما ويحترق فيها.</p>
+  <div class="tiles">
+    <div class="tile"><b>40–45</b><span>كغ ثفل مجفف في الدفعة (برميل 200 لتر)</span></div>
+    <div class="tile"><b>~13</b><span>كغ فحم (افتراض 29% من دراسة الجدوى)</span></div>
+    <div class="tile"><b>3–4</b><span>كغ بوتان حتى يبدأ الغاز بالمساعدة</span></div>
+    <div class="tile"><b>25–40</b><span>كيلوواط قدرة الشعلة</span></div>
+  </div>
+  <div class="stack">
+    <div class="drawing">
+    <h3>مقطع أمامي بالأبعاد</h3>
+    <svg viewBox="0 0 720 482" role="img" style="direction:ltr" aria-label="مقطع أمامي للنموذج التجريبي: برميل داخل غرفة مع شعلة بوتان خارجية">
+      <line x1="10" y1="410" x2="710" y2="410" stroke="var(--muted)"/>
+      <g transform="translate(60,0)">
+        <!-- brick ring -->
+        <rect x="64" y="146" width="28" height="264" fill="var(--brick)"/>
+        <rect x="308" y="146" width="28" height="264" fill="var(--brick)"/>
+        <!-- chamber -->
+        <rect x="104" y="50" width="192" height="264" fill="var(--cavity)" stroke="var(--metal-dark)" stroke-width="4"/>
+        <rect x="98" y="50" width="6" height="96" fill="#e8e0c8"/><rect x="296" y="50" width="6" height="96" fill="#e8e0c8"/>
+        <rect x="96" y="36" width="208" height="14" fill="#e8e0c8" stroke="var(--ink)" stroke-opacity=".3"/>
+        <rect x="100" y="44" width="200" height="8" fill="var(--metal-dark)"/>
+        <!-- drum -->
+        <rect x="150" y="285" width="12" height="29" fill="var(--metal-dark)"/><rect x="194" y="285" width="12" height="29" fill="var(--metal-dark)"/><rect x="238" y="285" width="12" height="29" fill="var(--metal-dark)"/>
+        <rect x="130" y="74" width="140" height="211" fill="#2f6fb5" stroke="var(--ink)" stroke-width="1.5"/>
+        <rect x="126" y="66" width="148" height="8" fill="var(--metal-dark)"/>
+        <line x1="131" y1="169" x2="269" y2="169" stroke="#fff" stroke-opacity=".7" stroke-dasharray="5 4"/>
+        <text x="200" y="232" text-anchor="middle" font-size="12" style="fill:#fff">ثفل 40–45 كغ</text>
+        <text x="200" y="125" text-anchor="middle" font-size="12" style="fill:#fff">برميل Ø580 × 880</text>
+        <!-- thermocouples -->
+        <line x1="200" y1="30" x2="200" y2="200" stroke="var(--ember)" stroke-width="2"/><rect x="195" y="20" width="10" height="10" fill="var(--ember)"/>
+        <line x1="117" y1="30" x2="117" y2="200" stroke="var(--ember)" stroke-width="2"/><rect x="112" y="20" width="10" height="10" fill="var(--ember)"/>
+        <!-- burner -->
+        <path d="M-20 360 V398 H150" stroke="var(--pipe)" stroke-width="4" fill="none"/>
+        <rect x="150" y="396" width="100" height="8" fill="var(--ink)"/>
+        <g fill="var(--ember)"><path d="M158 396 L163 380 L168 396Z"/><path d="M178 396 L183 380 L188 396Z"/><path d="M198 396 L203 378 L208 396Z"/><path d="M218 396 L223 380 L228 396Z"/><path d="M238 396 L243 382 L248 396Z"/></g>
+        <rect x="-54" y="360" width="20" height="50" rx="6" fill="#c94a2a" stroke="var(--ink)"/><rect x="-30" y="360" width="20" height="50" rx="6" fill="#c94a2a" stroke="var(--ink)"/>
+        <text x="-54" y="352" font-size="11" text-anchor="start">بوتان ×3</text>
+        <!-- stack and gap exit -->
+        <rect x="28" y="20" width="18" height="390" fill="var(--metal)" stroke="var(--ink)"/>
+        <path d="M24 214 L50 206 M24 226 L50 218" stroke="var(--bg)" stroke-width="5"/>
+        <rect x="46" y="150" width="18" height="12" fill="var(--pipe)"/>
+        <path d="M104 80 H46" stroke="var(--pipe)" stroke-width="6" fill="none"/>
+        <!-- gas out + condenser -->
+        <path d="M250 66 V24 L460 30 V95" stroke="var(--pipe)" stroke-width="7" stroke-linejoin="round" fill="none"/>
+        <rect x="324" y="18" width="14" height="14" fill="var(--ember)" stroke="var(--ink)"/>
+        <rect x="440" y="290" width="8" height="120" fill="var(--metal-dark)"/><rect x="552" y="290" width="8" height="120" fill="var(--metal-dark)"/>
+        <rect x="430" y="79" width="139" height="211" fill="var(--water)" fill-opacity=".3" stroke="var(--steel)" stroke-width="2.5"/>
+        <polyline points="460,95 545,115 450,140 545,155 450,180 545,195 450,220 545,235 460,262 460,290" fill="none" stroke="#b87333" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M569 270 H590 M569 100 H590" stroke="var(--water)" stroke-width="4"/>
+        <text x="593" y="274" font-size="10">ماء</text><text x="593" y="104" font-size="10">خارج</text>
+        <!-- jar, seal, return -->
+        <path d="M460 290 V330" stroke="var(--pipe)" stroke-width="3" fill="none"/>
+        <rect x="425" y="314" width="70" height="96" fill="var(--metal-dark)" stroke="var(--ink)" stroke-width="1.2"/>
+        <rect x="426" y="385" width="68" height="24" fill="#2b1a10"/>
+        <path d="M425 330 H372 V350" stroke="var(--pipe)" stroke-width="3" fill="none"/>
+        <rect x="346" y="350" width="34" height="60" fill="var(--panel)" stroke="var(--ink)" stroke-width="1.2"/><rect x="347" y="375" width="32" height="34" fill="var(--water)" opacity=".8"/>
+        <path d="M355 350 V300 H296" stroke="var(--pipe)" stroke-width="3" fill="none"/>
+        <path d="M390 320 H355" stroke="var(--water)" stroke-width="3" fill="none"/><rect x="372" y="313" width="10" height="14" fill="var(--ember)"/>
+        <text x="394" y="318" font-size="10">هواء</text>
+        <!-- dims -->
+        <g class="dim"><line x1="104" y1="438" x2="296" y2="438"/><line x1="104" y1="432" x2="104" y2="444"/><line x1="296" y1="432" x2="296" y2="444"/>
+        <line x1="64" y1="456" x2="336" y2="456"/><line x1="64" y1="450" x2="64" y2="462"/><line x1="336" y1="450" x2="336" y2="462"/></g>
+        <text class="dimtxt" x="200" y="432" text-anchor="middle">الغرفة Ø800</text>
+        <text class="dimtxt" x="200" y="474" text-anchor="middle">حلقة الطوب Ø1130</text>
+        <text class="dimtxt" x="14" y="12" text-anchor="start">مدخنة Ø150 × 3000</text>
+                <g class="mk">
+          <circle cx="200" cy="190" r="9"/><text x="200" y="190">1</text>
+          <circle cx="100" cy="230" r="9"/><text x="100" y="230">2</text>
+          <circle cx="283" cy="200" r="9"/><text x="283" y="200">3</text>
+          <circle cx="200" cy="376" r="9"/><text x="200" y="376">4</text>
+          <circle cx="37" cy="120" r="9"/><text x="37" y="120">5</text>
+          <circle cx="-44" cy="334" r="9"/><text x="-44" y="334">6</text>
+          <circle cx="395" cy="26" r="9"/><text x="395" y="26">7</text>
+          <circle cx="500" cy="160" r="9"/><text x="500" y="160">8</text>
+          <circle cx="460" cy="362" r="9"/><text x="460" y="362">9</text>
+          <circle cx="363" cy="392" r="9"/><text x="363" y="392">10</text>
+          <circle cx="330" cy="288" r="9"/><text x="330" y="288">11</text>
+          <circle cx="75" cy="66" r="9"/><text x="75" y="66">12</text>
+          <circle cx="200" cy="12" r="9"/><text x="200" y="12">13</text>
+        </g>
+      </g>
+    </svg>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:8px">النموذج ثلاثي الأبعاد</h3>
+      <div class="tools">
+        <button class="btn" id="bp-clip" aria-pressed="true">مقطع نصفي</button>
+        <button class="btn" id="bp-cut" aria-pressed="false">جدران شفافة</button>
+        <button class="btn" id="bp-pins" aria-pressed="true">الأرقام</button>
+        <button class="btn" id="bp-spin" aria-pressed="false">دوران تلقائي</button>
+        <button class="btn" id="bp-zin">تقريب</button>
+        <button class="btn" id="bp-zout">تبعيد</button>
+        <button class="btn" id="bp-reset">إعادة الضبط</button>
+      </div>
+      <div id="stage2" style="position:relative;direction:ltr;height:clamp(340px,62vw,560px);background:radial-gradient(ellipse at 50% 40%,var(--panel),var(--stage));border:1px solid var(--line);border-radius:8px;overflow:hidden"><div id="stage2-msg" class="stage-msg" hidden>تعذّر تشغيل العرض ثلاثي الأبعاد على هذا الجهاز أو في هذا المتصفح. المقطع الأمامي أعلاه يحوي الأجزاء نفسها.</div></div>
+      <div class="card info" id="info-p" aria-live="polite" style="margin-top:12px"><b>اختر رقمًا</b> من النموذج أو من القائمة لعرض وظيفة الجزء.</div>
+      <ul class="legend" id="legend-p"></ul>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:8px">جدول المكونات</h3>
+      <div class="tblwrap"><div id="p-comp"></div></div>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:8px">حساب الحرارة والوقود</h3>
+      <div class="tblwrap"><div id="p-heat"></div></div>
+      <p class="hint">الافتراضات: كفاءة تسخين 25% لأن الحرارة تعبر جدارين، وحرارة نوعية للثفل 1.5 كجول/كغ·ك وللفولاذ 0.5، وحرارة تفاعل 0.5 ميغاجول/كغ، والبوتان 46 ميغاجول/كغ. أسطوانة 13 كغ تعطي في الطقس المعتدل نحو 1 إلى 1.5 كغ/ساعة فقط، فتُوصَل 2 إلى 3 أسطوانات معًا.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:14px">طريقة التشغيل خطوة بخطوة</h3>
+      <ol class="flow gas">
+        <li><b>تحميل البرميل</b><span>40 إلى 45 كغ ثفل مجفف إلى 10% رطوبة، دون تجاوز 55% من الحجم. أغلق بالحلقة والحشية، وانفخ هواءً خفيفًا في الأنبوب مع مانومتر ماء بارتفاع 20 سم، ولا يهبط خلال 5 دقائق.</span></li>
+        <li><b>تركيب البرميل</b><span>أنزله على الدعامات داخل الغرفة، وصل أنبوب الغاز والمزدوجتين، وأغلق غطاء الغرفة.</span></li>
+        <li><b>فحص قبل الإشعال</b><span>مخرج الفجوة إلى المدخنة مفتوح، صمام الهواء مغلق، الصمام الكروي على أنبوب الغاز مفتوح، الماء يجري في المكثف، مصيدة الماء بعمق 10 سم، جرة القطران فارغة.</span></li>
+        <li><b>أسطوانات البوتان</b><span>في الخارج وقائمة ومثبتة. افحص المشعب والخرطوم بمحلول صابون.</span></li>
+        <li><b>إشعال الشعلة</b><span>انتظر 3 دقائق بعد فتح المدخنة، ثم أشعل الشعلة الصغيرة واضغط زر صمام الأمان 20 إلى 30 ثانية حتى تسخن المزدوجة وتُبقي الغاز مفتوحًا.</span></li>
+        <li><b>التسخين</b><span>اللهب الرئيسي ضعيف 10 دقائق، ثم ارفعه تدريجيًا بحيث ترتفع حرارة البرميل (TT-1) نحو 2.5 م° في الدقيقة.</span></li>
+        <li><b>طرد الهواء</b><span>عند نحو 100 م° يخرج بخار الرطوبة فيطرد الهواء، وترى فقاعات في المصيدة. صمام الهواء يبقى مغلقًا.</span></li>
+        <li><b>بدء الغاز وإشعاله في الفجوة</b><span>عند 200 إلى 250 م° يظهر دخان أبيض وفقاعات كثيفة. افتح صمام الهواء ربع دورة عندما تبلغ حرارة الفجوة (TT-2) 600 م° أو أكثر. إن لم تبلغ فأشعل الغاز عند مدخله بشعلة صغيرة احتياطية من فتحة المراقبة.</span></li>
+        <li><b>تقليل البوتان</b><span>عندما يثبت لهب الغاز في الفجوة (ترى ذلك من فتحة المراقبة) خفّض البوتان 20% كل 10 دقائق، ولا تُطفئ الشعلة الصغيرة.</span></li>
+        <li><b>الثبات</b><span>اجعل TT-1 عند 400 م° ± 20 لمدة ساعة.</span></li>
+        <li><b>الإغلاق والتبريد</b><span>أغلق البوتان وصمام الهواء والصمام الكروي على أنبوب الغاز، واترك التبريد مغلقًا.</span></li>
+        <li><b>التفريغ</b><span>لا تفتح البرميل إلا عند أقل من 100 م°، وأفرغ الفحم في دلو معدني بغطاء. أفرغ جرة القطران بعد توقف تدفق الغاز.</span></li>
+      </ol>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>شروط لا تُترك</h3>
+        <ul class="plain">
+          <li>مخرج الفجوة إلى المدخنة يبقى مفتوحًا دائمًا.</li>
+          <li>لا يُفتح صمام الهواء والفجوة باردة وليس عندها مصدر إشعال، وإلا تراكم الغاز.</li>
+          <li>إن انطفأ لهب البوتان فانتظر 5 دقائق قبل أي إشعال جديد.</li>
+          <li>الأسطوانات في الخارج، وكاشف CO ومطفأة قريبان.</li>
+          <li>حرارة البرميل لا تتجاوز 450 م°، ولا يُترك جدار الغرفة برتقاليًا ساطعًا.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>ما يختلف عن الفرن الكبير</h3>
+        <ul class="plain">
+          <li>الحرارة تعبر جدارين وفجوة، فالكفاءة أقل ويحتاج وقودًا أكثر نسبيًا.</li>
+          <li>جدار الغرفة أسخن من البرميل بنحو 200 إلى 300 م°، فيتقشر أسرع.</li>
+          <li>البرميل التجاري رقيق (نحو 1.2 مم) ولا يتحمل دفعات كثيرة عند 400 م°. للاستعمال المتكرر اصنعه من صفيحة 3 مم.</li>
+          <li>الغرض منه قياس الناتج والقطران وتجربة الإشعال، ثم تُعتمد الأرقام في الفرن الكبير.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="margin-bottom:8px">قائمة المشتريات</h3>
+      <div class="tblwrap"><div id="p-bom"></div></div>
+      <p class="hint">الكميات تقديرية. لم أضع أسعارًا لأني لا أملك عروضًا موثقة.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPECS ================= -->
+<section id="specs" data-title="المواصفات" hidden>
+  <h2>المواصفات التفصيلية</h2>
+  <p class="lead">تكفي لإرسالها إلى الورش. الأبعاد بالمليمتر ما لم يُذكر غير ذلك.</p>
+  <div class="tiles">
+    <div class="tile"><b>500</b><span>كغ ثفل مجفف في الدفعة</span></div>
+    <div class="tile"><b>2.6</b><span>م³ حجم الوعاء الداخلي</span></div>
+    <div class="tile"><b>~145</b><span>كغ فحم في الدفعة (افتراض 29% من دراسة الجدوى)</span></div>
+    <div class="tile"><b>~12</b><span>ساعة للدورة الكاملة مع التفريغ (تقدير)</span></div>
+  </div>
+  <div class="stack">
+    <div class="card">
+      <b>كيف خرجت السعة؟</b>
+      <ul class="plain">
+        <li>حجم الوعاء: π × 0.6² × 2.3 ≈ 2.6 م³.</li>
+        <li>تعبئة 55% تعطي نحو 1.4 م³، وبكثافة ظاهرية تقديرية 350 كغ/م³ يصبح الوزن نحو 500 كغ.</li>
+        <li>كثافة الثفل المجفف مجهولة هنا ويجب وزنها فعليًا، وهي أهم رقم يغيّر السعة.</li>
+        <li>الدفعة الواحدة تقابل نحو 1.04 طن ثفل رطب، فتكفي دفعة يوميًا لخط بطاقة طن يوميًا.</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-bottom:8px">جدول المكونات</h3>
+      <div class="tblwrap"><div id="t-comp"></div></div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:8px">قائمة قص الوعاء</h3>
+      <div class="tblwrap"><div id="t-cut"></div></div>
+      <p class="hint">الأوزان بكثافة فولاذ 7850 كغ/م³. الجسم حلقتان ملفوفتان قطرهما المتوسط 1206 مم، فمحيط كل حلقة 3789 مم. الأبعاد تُعدَّل بعد اختيار الورشة للألواح المتاحة.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>اللحام والتفاوتات</h3>
+        <ul class="plain">
+          <li>درزات الجسم الطولية والمحيطية: لحام تناكبي كامل النفاذ من الجهتين.</li>
+          <li>الفلنجة بالجسم: لحام مزدوج مستمر. الأنابيب الفرعية: لحام مستمر دون فجوات.</li>
+          <li>استدارة الجسم: ±3 مم على القطر 1200. تسطح وجه الفلنجة: 1 مم.</li>
+          <li>12 مسمارًا <span class="ltr">M16 × 60</span> صنف 8.8 على دائرة قطرها 1280 مم، مع مادة مانعة للالتصاق (anti-seize).</li>
+          <li>الحشية: حبل ألياف سيراميك <span class="ltr">Ø10</span> أو حشية جرافيت، بطول نحو 3.8 م.</li>
+          <li>فتحات الوعاء: خروج الغاز <span class="ltr">Ø120</span> عند 600 مم من الطرف الأيسر، ومخرج صمام الأمان 2 بوصة، وجيبان للمزدوجات <span class="ltr">Ø20</span>.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>لماذا أقراص الطرفين 10 مم؟</h3>
+        <p style="margin:6px 0 0">قرص مسطح بقطر 1200 مم وسماكة 8 مم يتحمل جيدًا ضغطًا قدره 0.1 بار، لكنه قريب من حد الإجهاد عند 0.3 بار وحرارة 400 م°. لذلك ضُبط صمام الأمان على 0.1 بار وسُمك القرصين 10 مم. إذا أردت ضغطًا أعلى فاطلب رؤوسًا مقوّسة (dished) من الورشة.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CALC ================= -->
+<section id="calc" data-title="الحسابات" hidden>
+  <h2>الحسابات</h2>
+  <p class="lead">أرقام أولية لتحديد حجم الشعلة والمكثف والأساس. افتراضات كل جدول مكتوبة تحته، ويجب التحقق منها بالتجربة الأولى.</p>
+  <div class="callout" style="margin-bottom:18px"><b>تصحيح مهم:</b> في النسخة الأولى كان المكثف صغيرًا (Ø360 × 1400). الحساب أدناه يظهر أنه يحتاج نحو 14 م² من سطح التبريد، فاستُبدل بمكثف أنبوبي Ø450 × 2200 مم.</div>
+  <div class="stack">
+    <div>
+      <h3 style="margin-bottom:8px">1. حرارة التسخين وحجم الشعلة</h3>
+      <div class="tblwrap"><div id="t-heat"></div></div>
+      <p class="hint">الافتراضات: حرارة نوعية للثفل 1.5 كجول/كغ·ك، وللفولاذ 0.5، وحرارة التفاعل 0.5 ميغاجول/كغ (رقم غير مؤكد). الوقود: LPG بطاقة 46 ميغاجول/كغ. كفاءة الفرن 30 إلى 40%.</p>
+      <ul class="plain">
+        <li>الحرارة المفيدة نحو 807 ميغاجول. على 2.5 ساعة تعطي نحو 90 كيلوواط مفيدة.</li>
+        <li>الوقود للدفعة الباردة: بين 2020 و2690 ميغاجول، أي نحو 44 إلى 58 كغ LPG.</li>
+        <li>قدرة الشعلة المقترحة: 150 إلى 250 كيلوواط بتعديل تدريجي (modulating).</li>
+        <li>الطوب الحراري يمتص حرارة كبيرة في الأيام الأولى، فتزيد كمية الوقود حتى يسخن الفرن ويستقر.</li>
+        <li>غاز الكربنة غير المتكثف (نحو 155 إلى 205 كغ) قد يغطي جزءًا كبيرًا من الوقود بعد الإحماء، لكن قيمته الحرارية منخفضة. تُقاس بالتجربة.</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-bottom:8px">2. المكثف والتبريد</h3>
+      <div class="tblwrap"><div id="t-cond"></div></div>
+      <p class="hint">الافتراضات: معامل انتقال حرارة 80 واط/م²·ك لغاز يحوي غازات غير متكثفة، وفرق حرارة لوغاريتمي 50 م°، وأن الحمل الأكبر يمر خلال ساعتين.</p>
+      <ul class="plain">
+        <li>المساحة المطلوبة: 55000 واط ÷ (80 × 50) ≈ 14 م².</li>
+        <li>المكثف الأنبوبي Ø450 × 2200 بنحو 80 أنبوبًا <span class="ltr">Ø25</span> يعطي: 80 × π × 0.025 × 2.2 ≈ 13.8 م².</li>
+        <li>ماء التبريد: دائرة مغلقة بخزان 5 م³ ترتفع حرارته نحو 20 م° في الدفعة، وتدفق 3 إلى 4 م³/ساعة.</li>
+        <li>هدف حرارة الغاز الخارج من المكثف: أقل من 50 م°. إن لم يتحقق فأضف وحدة ثانية على التوالي أو مبردًا هوائيًا.</li>
+      </ul>
+    </div>
+    <div class="grid2">
+      <div>
+        <h3 style="margin-bottom:8px">3. توازن الكتلة للدفعة</h3>
+        <div class="tblwrap"><div id="t-mass"></div></div>
+        <p class="hint">كل أرقام الخروج تقديرية عدا الفحم الذي يأتي من دراسة الجدوى. يقيسها بروتوكول التجربة المخبرية.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom:8px">4. الأحمال على الأساس</h3>
+        <div class="tblwrap"><div id="t-load"></div></div>
+        <p class="hint">الطوب: 4.48 م³ ≈ 2635 طوبة قياس 230 × 114 × 65 مم، وبهالك 10% نحو 2900 طوبة. الجدار 200 مم تقريبي ويصبح 230 مم (طوبة واحدة) عند البناء الفعلي.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>5. أنبوب الغاز</h3>
+      <p style="margin:6px 0 0">في ذروة الإنتاج تخرج نحو 0.056 كغ/ثانية من الأبخرة والغازات بكثافة تقارب 0.53 كغ/م³ عند 300 م°، أي نحو 0.1 م³/ثانية. مساحة الأنبوب <span class="ltr">Ø120</span> هي 0.0113 م²، فتكون السرعة نحو 9 م/ثانية. هذه سرعة مقبولة، وأقل منها يفضّل لتقليل جر القطران، فيمكن رفع القطر إلى <span class="ltr">Ø150</span> إذا سمحت الورشة.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTROL ================= -->
+<section id="control" data-title="التحكم" hidden>
+  <h2>التحكم والأجهزة</h2>
+  <p class="lead">التحكم الآلي هو ما يحمي من الخطأ البشري. الكهرباء المفترضة 380/220 فولت و50 هرتز.</p>
+  <div class="stack">
+    <div>
+      <h3 style="margin-bottom:8px">قائمة الأجهزة</h3>
+      <div class="tblwrap"><div id="t-inst"></div></div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:8px">الإنذارات وقطع التشغيل</h3>
+      <div class="tblwrap"><div id="t-alarm"></div></div>
+      <p class="hint">القيم ابتدائية ويعدّلها المهندس بعد معرفة سلوك الفرن الفعلي.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>برنامج الحرارة (ramp / soak)</h3>
+        <ol class="plain">
+          <li>من الحرارة الجوية إلى 100 م°: ارتفاع حر مع التنفيس مفتوحًا.</li>
+          <li>من 100 إلى 400 م°: 2.5 م° في الدقيقة (نحو ساعتين).</li>
+          <li>ثبات 400 م° ± 20 لمدة 60 دقيقة.</li>
+          <li>إيقاف الشعلة وبدء التبريد المغلق.</li>
+        </ol>
+        <p class="hint">يكفي منظم يدعم برنامجًا من 8 مقاطع على الأقل، أو PLC صغير.</p>
+      </div>
+      <div class="card">
+        <h3>مكونات الشعلة</h3>
+        <ul class="plain">
+          <li>وحدة تحكم لهب (burner control unit) مع حساس لهب.</li>
+          <li>صمامان سلونويد للأمان على خط الوقود.</li>
+          <li>مروحة هواء بمحرك نحو 1.5 كيلوواط.</li>
+          <li>خطا وقود: LPG وغاز الكربنة العائد، بصمام تحويل يدوي في البداية.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BUILD ================= -->
+<section id="build" data-title="البناء" hidden>
+  <h2>خطوات البناء</h2>
+  <p class="lead">الترتيب الذي يقلل الأخطاء: نموذج صغير أولًا، ثم الفرن الكامل.</p>
+  <div class="stack">
+    <div>
+      <h3 style="margin-bottom:8px">الجدول الزمني التقديري</h3>
+      <div class="tblwrap"><div id="t-plan"></div></div>
+      <p class="hint">المجموع نحو 10 إلى 12 أسبوعًا بعد توقيع العقد. تتغير المدة حسب الورشة وتوفر المواد.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:14px">نقاط التحقق أثناء البناء</h3>
+      <ol class="flow">
+        <li><b>قبل القص</b><span>شهادة المصنع للفولاذ ومطابقة السماكة بالقياس.</span></li>
+        <li><b>بعد لف الجسم</b><span>قياس الاستدارة، وأن الفرق بين أي قطرين لا يزيد على 3 مم.</span></li>
+        <li><b>بعد اللحام</b><span>فحص بصري كامل، ثم اختبار الصبغة السائلة (dye penetrant) على اللحامات الحرجة.</span></li>
+        <li><b>اختبار التسرب</b><span>هواء 0.1 بار ومحلول صابون لمدة 30 دقيقة، دون فقاعات.</span></li>
+        <li><b>قبل بناء الطوب</b><span>تثبيت الوعاء على السرجين وترك فراغ تمدد 10 مم على أطراف الوعاء.</span></li>
+        <li><b>بعد البناء</b><span>تجفيف الطوب بجدول التسخين في تبويب «الاختبار».</span></li>
+      </ol>
+    </div>
+    <div>
+      <h3 style="margin-bottom:8px">قائمة المشتريات</h3>
+      <div class="tblwrap"><div id="t-bom"></div></div>
+      <p class="hint">الكميات تقديرية وتتأكد من الورشة. لم أضع أسعارًا لأني لا أملك عروضًا موثقة.</p>
+    </div>
+    <div class="card">
+      <h3>نص طلب عرض السعر للورش</h3>
+      <p class="hint" style="margin:4px 0 10px">انسخه وأرسله إلى ثلاث ورش على الأقل.</p>
+      <textarea id="rfq" rows="14" readonly></textarea>
+      <div class="tools" style="margin:10px 0 0"><button class="btn primary" id="b-rfq">نسخ النص</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TEST / OPERATE ================= -->
+<section id="test" data-title="الاختبار والتشغيل" hidden>
+  <h2>الاختبار والتشغيل</h2>
+  <p class="lead">لا تبدأ بدفعة كاملة. المراحل أدناه بالترتيب، وكل مرحلة تشترط نجاح التي قبلها.</p>
+  <div class="stack">
+    <div>
+      <h3 style="margin-bottom:8px">بروتوكول التشغيل التجريبي</h3>
+      <div class="tblwrap"><div id="t-comm"></div></div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:8px">جدول تجفيف الطوب والمونة</h3>
+      <div class="tblwrap"><div id="t-dry"></div></div>
+      <p class="hint">جدول عام. اتبع ورقة بيانات مورد المونة إن اختلفت. التسخين السريع قبل التجفيف يشقق الجدران.</p>
+    </div>
+    <div class="card chart">
+      <b>منحنى الحرارة النموذجي للدفعة</b>
+      <svg id="curve" viewBox="0 0 680 300" role="img" aria-label="منحنى الحرارة مقابل الزمن للدفعة" style="width:100%;height:auto;display:block;margin-top:8px"></svg>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:6px">إجراءات الدفعة</h3>
+      <div class="phase"><h3>1. قبل التشغيل</h3><small>قبل بدء التسخين</small>
+        <span>تحقق من الحشية والمسامير، ومرور ماء المكثف، ومستوى ماء المصيدة، وقراءة المزدوجات، وأن أنبوب الغاز غير مسدود، وأن الخزان فارغ، والتهوية تعمل.</span></div>
+      <div class="phase"><h3>2. التعبئة</h3><small>ثفل ≤ 10% رطوبة</small>
+        <span>صواني بسماكة 5 إلى 8 سم، ولا تتجاوز 55% من الحجم. زِن الداخل وسجّله.</span></div>
+      <div class="phase"><h3>3. الإغلاق وطرد الهواء</h3><small>حتى نحو 100 م°</small>
+        <span>أغلق الباب وفتحة التنفيس مفتوحة، وابدأ التسخين بغاز LPG. عند خروج بخار ثابت أغلق التنفيس ليتجه الغاز إلى خط التكثيف.</span></div>
+      <div class="phase"><h3>4. التسخين</h3><small>نحو 2.5 م° في الدقيقة</small>
+        <span>من نحو 200 م° يظهر الدخان الأبيض والقطران. عندما يشتعل الغاز العائد في الشعلة بثبات يمكن تخفيض LPG أو إيقافه.</span></div>
+      <div class="phase"><h3>5. التثبيت</h3><small>400 م° ± 20 لمدة ساعة</small>
+        <span>راقب الضغط والحرارة كل 15 دقيقة وسجّلهما.</span></div>
+      <div class="phase"><h3>6. عزل الوعاء والتبريد المغلق</h3><small>حتى أقل من 100 م°</small>
+        <span>أطفئ الشعلة، وأغلق صمام العزل الحراري بين الوعاء وخط الغاز، وأغلق كل مداخل الهواء. يتقلص الغاز أثناء التبريد فيسحب هواء من أي تسرب، لذلك يُفضَّل توصيل نيتروجين أو بخار صغير يعوّض الانكماش. لا تفتح الباب قبل 100 م°، وإلا اشتعل الفحم.</span></div>
+      <div class="phase"><h3>7. التفريغ</h3><small>بقفازات ونظارات</small>
+        <span>أفرغ الفحم في حاوية معدنية وأغلقها، ولا تكوّمه وهو دافئ. زِن الفحم والقطران وسجّلهما مع الوقود المستهلك.</span></div>
+    </div>
+    <div class="card">
+      <h3>سجل الدفعة</h3>
+      <p class="hint" style="margin:4px 0 10px">يُملأ لكل دفعة. القالب يُنسخ إلى جدول بيانات.</p>
+      <div class="tblwrap"><div id="t-log"></div></div>
+      <div class="tools" style="margin:10px 0 0"><button class="btn primary" id="b-log">نسخ قالب السجل</button></div>
+      <textarea id="logtxt" rows="3" readonly style="margin-top:10px;direction:ltr" aria-label="قالب السجل"></textarea>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MAINTENANCE ================= -->
+<section id="maint" data-title="الصيانة والأعطال" hidden>
+  <h2>الصيانة وحل الأعطال</h2>
+  <p class="lead">أكثر المشاكل تتكرر في تسرب الباب وانسداد القطران. الجدولان يغطيان ما يمكن توقعه.</p>
+  <div class="stack">
+    <div>
+      <h3 style="margin-bottom:8px">جدول الصيانة</h3>
+      <div class="tblwrap"><div id="t-maint"></div></div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:8px">الأعطال الشائعة</h3>
+      <div class="tblwrap"><div id="t-trouble"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SAFETY ================= -->
+<section id="safety" data-title="السلامة" hidden>
+  <h2>السلامة والتصاريح</h2>
+  <p class="lead">قائمة فحص قبل أول تشغيل. تُحفظ علاماتك في هذا المتصفح فقط.</p>
+  <div class="prog" id="prog">0 من 10<div class="bar"><i id="barfill"></i></div></div>
+  <ul class="chk" id="chk"></ul>
+  <div class="grid2" style="margin-top:18px">
+    <div class="card">
+      <b>أخطار تتكرر في هذا النوع من الأفران</b>
+      <ul class="plain">
+        <li>خليط هواء وغاز داخل الوعاء عند البدء قد ينفجر، لذلك يُطرد الهواء قبل إغلاق التنفيس.</li>
+        <li>أول أكسيد الكربون لا يُرى ولا يُشمّ بوضوح، فاعتمد على الكاشف.</li>
+        <li>الفحم الناعم الدافئ يسخن ذاتيًا ويشتعل بعد ساعات من التفريغ.</li>
+        <li>القطران يلتصق بالجلد ويلوّث التربة والماء، ويُجمع في براميل مغلقة.</li>
+        <li>تقلص الغاز أثناء التبريد يسحب هواءً داخل الوعاء الساخن.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <b>التصاريح (تحقق من الإجراء المحلي)</b>
+      <ul class="plain">
+        <li>تصنيف المنشأة وترخيصها البيئي حسب نظام المنشآت المصنفة المعمول به في الجزائر.</li>
+        <li>موافقة الحماية المدنية على موقع الفرن ومخزن الوقود.</li>
+        <li>خطة لتصريف القطران وخل الخشب عبر جهة مرخصة.</li>
+        <li>شهادات المواد والمعدات من الموردين، والتأمين.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+/* ---------- helpers ---------- */
+function ltr(s){return String(s).replace(/\{\{(.+?)\}\}/g,'<span class="ltr">$1</span>');}
+function tbl(id,heads,rows,o){
+  o=o||{};var el=document.getElementById(id);if(!el)return;
+  var h='<table><thead><tr>'+heads.map(function(x,i){return '<th'+((o.num&&o.num.indexOf(i)>-1)?' class="num"':'')+'>'+ltr(x)+'</th>'}).join('')+'</tr></thead><tbody>';
+  rows.forEach(function(r){var tot=(o.total&&o.total.indexOf(r)>-1);h+='<tr'+(tot?' class="total"':'')+'>'+r.map(function(c,i){return '<td'+((o.num&&o.num.indexOf(i)>-1)?' class="num"':'')+'>'+ltr(c)+'</td>'}).join('')+'</tr>';});
+  el.innerHTML=h+'</tbody></table>';
+}
+function copyFrom(btn,ta,text){
+  ta.value=text;var ok=false;
+  try{ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){btn.textContent='تم النسخ';},function(){fallback()});ok=true;} }catch(e){}
+  function fallback(){ta.focus();ta.select();btn.textContent='حدّد النص وانسخه يدويًا';}
+  if(!ok)fallback();
+}
+
+/* ---------- parts (shared by drawings and 3D) ---------- */
+var parts=[
+ {n:1,t:'وعاء الكربنة',d:'أسطوانة فولاذية مغلقة Ø1200 × 2300 مم، جسمها 6 مم. يوضع فيها الثفل المجفف على صواني ولا يلامس اللهب.',p:[0.2,1.05,0.62]},
+ {n:2,t:'الباب والفلنجة',d:'باب دائري Ø1360 بـ12 مسمارًا M16 وحشية مقاومة للحرارة. لا يُفتح قبل أن تنزل الحرارة عن 100 م°.',p:[1.45,1.75,0]},
+ {n:3,t:'غرفة الاحتراق',d:'جدران طوب حراري حول الوعاء بأبعاد خارجية 2400 × 2000 × 2000 مم. في النموذج الجدار الأمامي شفاف لترى الداخل.',p:[-1.1,1.95,1.0]},
+ {n:4,t:'الشعلة',d:'تسخّن قاع الوعاء بقدرة 150 إلى 250 كيلوواط. تبدأ بغاز LPG ثم تعمل على غاز الكربنة العائد.',p:[-0.2,0.5,0.25]},
+ {n:5,t:'أنبوب الغاز المعزول',d:'Ø120 مم يخرج من أعلى الوعاء إلى المكثف بميل لا يقل عن 3%، ومعزول حتى لا يتكثف القطران فيه ويسدّه.',p:[-1.3,3.75,0]},
+ {n:6,t:'المكثف الأنبوبي',d:'Ø450 × 2200 مم بنحو 80 أنبوبًا Ø25 مم، مساحة تبريد نحو 14 م². يحوّل الأبخرة الثقيلة إلى قطران وخل خشب.',p:[-2.0,2.0,0.3]},
+ {n:7,t:'خزان القطران',d:'0.4 م³ (Ø800 × 800 مم) يجمع السوائل المتكثفة، وفيه صنبور تصريف سفلي. يُفرَّغ بعد كل دفعة.',p:[-2.0,0.45,0.45]},
+ {n:8,t:'مصيدة الماء وكاتم اللهب',d:'تمنع رجوع اللهب من الشعلة إلى الوعاء، ويُفحص مستوى مائها قبل كل دفعة.',p:[-1.4,0.55,0.15]},
+ {n:9,t:'المدخنة',d:'Ø320 مم وارتفاع 4 م لتصريف الغاز المحترق بعيدًا عن العاملين.',p:[0.8,4.15,-0.4]},
+ {n:10,t:'صمام الأمان',d:'يفتح عند 0.1 بار تقريبًا. يوجَّه إلى أعلى بعيدًا عن الأشخاص. القيمة النهائية يحددها المهندس.',p:[-0.1,2.45,0]},
+ {n:11,t:'المزدوجة الحرارية',d:'نوع K داخل الوعاء تغذّي المنظم. تُضاف مزدوجة ثانية في غرفة الاحتراق للحماية من الحرارة الزائدة.',p:[0.45,2.5,0]},
+ {n:12,t:'لوحة التحكم',d:'منظم برنامج حرارة وشاشة وإنذار CO وزر إيقاف طارئ يقطع الوقود.',p:[2.95,1.55,0.9]},
+ {n:13,t:'حاوية التفريغ',d:'حاوية معدنية 1000 × 800 × 700 مم (نحو 0.56 م³) بغطاء محكم، يُصبّ فيها الفحم وتبقى مغلقة حتى يبرد تمامًا.',p:[2.1,0.85,0]},
+ {n:14,t:'صمام العزل الحراري',d:'صمام كروي يتحمل 400 م° على خروج الغاز من الوعاء. يُغلق بعد انتهاء الإنتاج الغازي ليعزل الوعاء أثناء التبريد.',p:[-0.6,2.45,0.2]}
+];
+var posElev={1:[270,285],2:[458,252],3:[247,249],4:[343,382],5:[230,82],6:[170,250],7:[165,392],8:[221,380],9:[408,120],10:[331,200],11:[378,198],12:[590,276],13:[518,380],14:[310,222]};
+var posPlan={1:[430,140],2:[472,118],3:[246,94],4:[323,196],5:[250,147],6:[170,126],7:[150,194],8:[221,196],9:[408,112],10:[335,150],11:[378,150],12:[590,222],13:[518,124],14:[289,146]};
+var posEnd={2:[220,272],3:[150,250],5:[218,110],9:[254,100],12:[143,265],13:[220,372]};
+var active=0,listeners=[];
+function setActive(n){active=(active===n?0:n);listeners.forEach(function(f){f()});}
+function renderInfo(){
+  var el=document.getElementById('info'),p=parts.filter(function(x){return x.n===active})[0];
+  el.innerHTML=p?('<b>'+p.n+'. '+p.t+'</b><br>'+p.d):'<b>اختر رقمًا</b> من النموذج أو من القائمة لعرض وظيفة الجزء.';
+}
+function renderLegend(id){
+  var ul=document.getElementById(id);
+  parts.forEach(function(p){
+    var li=document.createElement('li'),b=document.createElement('button');
+    b.type='button';b.dataset.n=p.n;
+    b.innerHTML='<span class="n">'+p.n+'</span><span><b>'+p.t+'</b><br><span style="color:var(--muted)">'+p.d+'</span></span>';
+    b.addEventListener('click',function(){setActive(p.n)});
+    li.appendChild(b);ul.appendChild(li);
+  });
+}
+['legend-flow','legend-3d'].forEach(renderLegend);
+listeners.push(function(){
+  renderInfo();
+  document.querySelectorAll('.legend button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===active));});
+});
+renderInfo();
+function marks(id,pos){
+  var g=document.getElementById(id),NS='http://www.w3.org/2000/svg';
+  Object.keys(pos).forEach(function(k){var q=pos[k],grp=document.createElementNS(NS,'g');
+    grp.innerHTML='<circle cx="'+q[0]+'" cy="'+q[1]+'" r="9"></circle><text x="'+q[0]+'" y="'+q[1]+'">'+k+'</text>';g.appendChild(grp);});
+}
+marks('mk-elev',posElev);marks('mk-plan',posPlan);marks('mk-end',posEnd);
+(function(){var g=document.getElementById('bolts'),NS='http://www.w3.org/2000/svg';
+  for(var i=0;i<12;i++){var a=i/12*Math.PI*2,c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',220+54.4*Math.cos(a));c.setAttribute('cy',311+54.4*Math.sin(a));c.setAttribute('r',3);g.appendChild(c);}})();
+
+/* ---------- tables ---------- */
+tbl('t-comp',['الجزء','المواصفة','ملاحظة'],[
+ ['الوعاء','أسطوانة {{Ø1200 × 2300 mm}}، الجسم 6 مم والقرصان 10 مم','فولاذ مقاوم للحرارة ({{310S}} أو {{304}}) يعمّر أطول. الفولاذ الكربوني أرخص لكنه يتآكل أسرع بأحماض خل الخشب.'],
+ ['الباب','فلنجة {{Ø1360 mm}} سماكة 10 مم، 12 مسمارًا {{M16}}','حشية ألياف سيراميك أو جرافيت. تُستبدل كلما تضررت.'],
+ ['غرفة الاحتراق','{{2400 × 2000 × 2000 mm}} خارجيًا، جدران 200 إلى 230 مم','طوب حراري ومونة حرارية، وعزل ألياف سيراميك 50 مم من الخارج.'],
+ ['الشعلة','150 إلى 250 كيلوواط، بمروحة وتحكم لهب','LPG للبدء ثم غاز الكربنة. تحتاج حساس لهب وصمامي أمان.'],
+ ['صمام العزل الحراري','كروي {{Ø100}} يتحمل 400 م°','يغلق عند انتهاء الإنتاج الغازي ويفتح قبل الدفعة التالية.'],
+ ['أنبوب الغاز','{{Ø120 mm}} فولاذ، عزل صوف صخري 50 مم','ميل لا يقل عن 3% نحو المكثف، وفتحة تنظيف عند كل زاوية.'],
+ ['المكثف','أنبوبي {{Ø450 × 2200 mm}}، نحو 80 أنبوبًا {{Ø25}}','مساحة تبريد نحو 14 م². ماء بتدفق 3 إلى 4 م³/ساعة. يُنظَّف شهريًا.'],
+ ['خزان القطران','{{Ø800 × 800 mm}} (0.4 م³) مع صنبور سفلي','يتسع لسوائل الدفعة (نحو 150 إلى 200 كغ). يُفرَّغ إلى براميل مغلقة، ولا يُصرَّف في المجاري.'],
+ ['مصيدة الماء','{{Ø280 × 500 mm}} مع كاتم لهب','مستوى الماء يُفحص قبل كل دفعة.'],
+ ['المدخنة','{{Ø320 mm}}، ارتفاع 4 م من الأرض','تعلو سطح أي مبنى قريب، وبعيدة عن الأشجار والمواد القابلة للاشتعال.'],
+ ['صمام الأمان','يفتح قرب 0.1 بار، مخرج 2 بوصة','يوجَّه إلى أعلى. الرقم تقريبي ويحدده المهندس.'],
+ ['الأساس','بلاطة خرسانة مسلحة {{6200 × 3000 mm}}، سماكة 15 إلى 20 سم','يصممها مهندس مدني حسب التربة. الحمل تحت الغرفة نحو 2.4 طن/م².'],
+ ['حاوية التفريغ','{{1000 × 800 × 700 mm}} (0.56 م³) بغطاء محكم','فولاذ، وحاويتان للتناوب.']
+]);
+tbl('t-cut',['الرمز','القطعة','العدد','الأبعاد','السماكة (مم)','الوزن (كغ)'],[
+ ['R1','جسم الوعاء (حلقتان ملفوفتان)','2','{{3789 × 1150}}','6','410'],
+ ['R2','قرصا الطرفين','2','{{Ø1200}}','10','178'],
+ ['R3','حلقة الفلنجة','1','{{OD 1360 / ID 1180}}','10','28'],
+ ['R4','قرص الباب','1','{{Ø1360}}','10','114'],
+ ['R5','حلقات تقوية','3','شريط {{50 × 8}} طول 3.8 م لكل واحدة','8','37'],
+ ['R6','وصلات: خروج الغاز، صمام الأمان، جيبا المزدوجات','4','أنابيب قصيرة','—','نحو 8'],
+ ['','المجموع مع اللحام (+3%)','','','','نحو 800']
+],{num:[2,4,5],total:null});
+document.querySelectorAll('#t-cut tbody tr:last-child').forEach(function(r){r.className='total';});
+tbl('t-heat',['البند','الحساب','الطاقة (MJ)'],[
+ ['تسخين الثفل من 25 إلى 400 م°','500 × 1.5 × 375','281'],
+ ['تسخين الفولاذ (نحو 790 كغ)','790 × 0.5 × 375','148'],
+ ['رطوبة 10% (50 كغ): تسخين وتبخير','50 × (4.18 × 75 + 2257)','128'],
+ ['حرارة تفاعل الانحلال الحراري','500 × 0.5','250'],
+ ['المجموع المفيد','','نحو 807']
+],{num:[2]});
+document.querySelectorAll('#t-heat tbody tr:last-child').forEach(function(r){r.className='total';});
+tbl('t-cond',['البند','الحساب','الطاقة (MJ)'],[
+ ['تكثيف الماء (رطوبة وماء تفاعل نحو 100 كغ)','100 × 2.26','226'],
+ ['تبريد الغاز والأبخرة من 350 إلى 40 م° (نحو 300 كغ)','300 × 1.8 × 0.31','167'],
+ ['تكثيف الأبخرة العضوية (افتراض)','—','40'],
+ ['المجموع خلال نحو ساعتين','متوسط نحو 55 كيلوواط','نحو 430']
+],{num:[2]});
+document.querySelectorAll('#t-cond tbody tr:last-child').forEach(function(r){r.className='total';});
+tbl('t-mass',['البند','الكتلة (كغ)'],[
+ ['داخل: ثفل مجفف (450 مادة جافة + 50 ماء)','500'],
+ ['خارج: فحم (29% من دراسة الجدوى)','~145'],
+ ['خارج: سوائل (ماء وأحماض وقطران 30 إلى 60)','150 – 200'],
+ ['خارج: غاز غير متكثف (بالفرق)','155 – 205']
+],{num:[1]});
+tbl('t-load',['البند','الوزن (طن)'],[
+ ['الطوب الحراري (4.48 م³ × 2.0)','~9.0'],
+ ['الوعاء والباب','0.8'],
+ ['شحنة الثفل','0.5'],
+ ['المكثف والخزان بما فيهما','~1.2'],
+ ['المجموع تقريبًا','~11.5'],
+ ['الضغط تحت الغرفة (4.8 م²)','~2.4 طن/م²']
+],{num:[1]});
+document.querySelectorAll('#t-load tbody tr:nth-last-child(2)').forEach(function(r){r.className='total';});
+
+tbl('t-inst',['الرمز','الجهاز','الموضع','المدى','الوظيفة'],[
+ ['TT-101','مزدوجة {{K}}','داخل الوعاء، وسط الشحنة','0–600 م°','تحكم البرنامج والإنذار'],
+ ['TT-102','مزدوجة {{K}}','غرفة الاحتراق فوق الوعاء','0–1000 م°','حماية من الحرارة الزائدة'],
+ ['TT-103','مزدوجة {{K}}','أنبوب الغاز بعد الوعاء','0–500 م°','معرفة بداية الإنتاج ومنع التكثف المبكر'],
+ ['TT-104','{{PT100}}','مخرج غاز المكثف','0–150 م°','قياس كفاءة التكثيف (الهدف أقل من 50 م°)'],
+ ['PT-101','محول ضغط أو مانومتر','أعلى الوعاء','−10 إلى +30 كيلوباسكال','مراقبة الضغط وكشف الانسداد'],
+ ['FS-101','مفتاح تدفق ماء','دخول المكثف','—','منع التسخين دون تبريد'],
+ ['LS-101','مفتاح مستوى','مصيدة الماء','—','إنذار نقص الماء'],
+ ['AE-101','كاشف {{CO}}','قرب الباب وقرب الخزان','0–300 ppm','إنذار الغاز'],
+ ['FE-101','حساس لهب','الشعلة','—','قطع الوقود عند انطفاء اللهب'],
+ ['XV-101','صمام عزل حراري','خروج الغاز من الوعاء','—','عزل الوعاء أثناء التبريد'],
+ ['PSV-101','صمام أمان','أعلى الوعاء','0.1 بار','تنفيس الضغط الزائد']
+]);
+tbl('t-alarm',['الحالة','الحد','الإجراء'],[
+ ['حرارة الوعاء عالية','أكثر من 450 م°','إنذار ثم قطع الوقود'],
+ ['حرارة الغرفة عالية','أكثر من 750 م°','قطع الوقود'],
+ ['ضغط الوعاء','أكثر من 8 كيلوباسكال','إنذار، تقليل الشعلة، فحص الانسداد'],
+ ['ضغط الوعاء حرج','أكثر من 10 كيلوباسكال','يفتح صمام الأمان، قطع الوقود'],
+ ['تدفق ماء المكثف','غير متوفر','منع تشغيل الشعلة، أو قطعها إن كانت تعمل'],
+ ['مستوى ماء المصيدة','منخفض','منع التشغيل'],
+ ['كاشف CO','أكثر من 30 ppm إنذار، أكثر من 100 ppm إخلاء','تهوية، ثم إخلاء وقطع الوقود'],
+ ['انطفاء اللهب','حساس اللهب','قطع الوقود فورًا'],
+ ['زر الطوارئ','—','قطع الوقود والمروحة وإنذار صوتي']
+]);
+
+tbl('t-plan',['الأسبوع','العمل'],[
+ ['1 – 2','عروض الأسعار واختيار الورشة، وتأكيد التصميم'],
+ ['1 – 3','تجهيز الموقع وصب الأساس (بالتوازي)'],
+ ['3 – 5','تصنيع الوعاء والباب واختبار التسرب'],
+ ['4 – 6','المكثف والخزان والمصيدة وخط الغاز والمدخنة'],
+ ['6 – 7','بناء الطوب الحراري والعزل'],
+ ['7 – 8','الشعلة والخط الكهربائي واللوحة والأجهزة'],
+ ['8 – 9','تجفيف الطوب والاختبارات'],
+ ['10 – 12','تشغيل تجريبي وتعديل ثم أول دفعة كاملة']
+]);
+tbl('t-bom',['البند','المواصفة','الكمية'],[
+ ['لوح فولاذ 6 مم','{{1500 × 6000}}، {{310S}} أو {{304}}','2 لوحان'],
+ ['لوح فولاذ 10 مم','{{1500 × 3000}}','2 لوحان'],
+ ['شريط تقوية','{{50 × 8}}','12 م'],
+ ['مسامير وصواميل ووردات','{{M16 × 60}}، صنف 8.8','16 (12 + 4 احتياط)'],
+ ['حشية الباب','حبل ألياف سيراميك {{Ø10}}','5 م'],
+ ['أنبوب الغاز','فولاذ {{Ø120}}، سماكة 3 مم، مع 4 زوايا','6 م'],
+ ['عزل الأنبوب','صوف صخري 50 مم بغلاف ألومنيوم','6 م'],
+ ['صمام عزل حراري','كروي {{Ø100}} يتحمل 400 م°','1'],
+ ['المكثف','أنبوبي {{Ø450 × 2200}} بنحو 80 أنبوبًا','1'],
+ ['خزان القطران','{{Ø800 × 800}} مع صنبور','1'],
+ ['مصيدة ماء وكاتم لهب','{{Ø280 × 500}}','1'],
+ ['المدخنة','فولاذ {{Ø320}}، 2 م فوق السقف مع غطاء مطر','1'],
+ ['طوب حراري','{{230 × 114 × 65}}','نحو 2900'],
+ ['مونة حرارية','حسب مورد الطوب','نحو 400 كغ'],
+ ['عزل خارجي','ألياف سيراميك 50 مم','نحو 25 م²'],
+ ['شعلة غاز','150–250 كيلوواط بمروحة ووحدة تحكم لهب','1'],
+ ['خط وقود LPG','خزان أو أسطوانات، حسب الاستهلاك (44–58 كغ للدفعة الباردة)','1 مجموعة'],
+ ['مضخة وخزان ماء التبريد','مضخة 3–4 م³/ساعة وخزان 5 م³','1 مجموعة'],
+ ['لوحة التحكم','منظم برنامج حرارة أو PLC، قواطع، زر طوارئ','1'],
+ ['مزدوجات وحساسات','{{K}} × 3، {{PT100}} × 1، محول ضغط، مفتاح تدفق، مفتاح مستوى','1 مجموعة'],
+ ['صمام الأمان','0.1 بار، مخرج 2 بوصة','1'],
+ ['كواشف','{{CO}} × 2 وكاشف دخان','1 مجموعة'],
+ ['حاويات التفريغ','{{1000 × 800 × 700}} بغطاء محكم','2'],
+ ['براميل القطران','200 لتر مغلقة','3'],
+ ['مطافئ','مسحوق جاف 12 كغ × 2، {{CO₂}} × 1','3']
+]);
+var rfq='طلب عرض سعر: فرن كربنة بوعاء مسخَّن من الخارج\n\n'+
+'المطلوب: تصنيع وتركيب وتشغيل تجريبي لفرن كربنة ثفل القهوة بسعة 500 كغ في الدفعة.\n\n'+
+'1) الوعاء: أسطوانة Ø1200 × 2300 مم، الجسم 6 مم والقرصان 10 مم، فولاذ مقاوم للحرارة (310S أو 304) أو بديل تقترحونه مع بيان الفرق في السعر والعمر. فلنجة Ø1360 بسماكة 10 مم مع 12 مسمار M16 وحشية ألياف سيراميك.\n'+
+'2) غرفة احتراق من الطوب الحراري بأبعاد خارجية 2400 × 2000 × 2000 مم مع عزل خارجي 50 مم.\n'+
+'3) خط غاز: صمام عزل حراري، أنبوب Ø120 معزول، مكثف أنبوبي Ø450 × 2200 (نحو 14 م² مساحة تبريد)، خزان قطران 0.4 م³، مصيدة ماء وكاتم لهب، مدخنة Ø320 بارتفاع 4 م.\n'+
+'4) شعلة غاز 150 إلى 250 كيلوواط بوحدة تحكم لهب، ولوحة تحكم ببرنامج حرارة، وأجهزة قياس وإنذار.\n'+
+'5) الاختبارات: اختبار تسرب بالهواء 0.1 بار، اختبار صبغة سائلة على اللحامات الحرجة، تجفيف الطوب، تشغيل تجريبي حتى 400 م°.\n\n'+
+'نرجو في عرضكم: السعر مفصلًا بحسب البنود، مدة التسليم، شهادات المواد، الضمان، المخططات التنفيذية التي ستعدونها، وتحديد ما تقترحون تعديله.\n'+
+'ملاحظة: الأبعاد تصميم مبدئي، ونرحب باقتراحات تحسين تحافظ على السعة.';
+document.getElementById('rfq').value=rfq;
+document.getElementById('b-rfq').addEventListener('click',function(){copyFrom(this,document.getElementById('rfq'),rfq);});
+
+tbl('t-comm',['المرحلة','الاختبار','معيار القبول'],[
+ ['1','فحص الأبعاد والاستدارة','فرق القطرين ≤ 3 مم، وتسطح الفلنجة ≤ 1 مم'],
+ ['2','اختبار تسرب بالهواء {{0.1 bar}} ومحلول صابون لمدة 30 دقيقة','لا فقاعات، ولا هبوط ضغط يزيد على 5%'],
+ ['3','تجفيف الطوب بالجدول أدناه','لا تشققات كبيرة، وتمدد منتظم'],
+ ['4','تشغيل فارغ حتى 400 م° وثبات ساعة','فرق الحرارة بين ثلاث نقاط في الوعاء ≤ 40 م°، ولا دخان من الباب'],
+ ['5','اختبار الماء والمكثف','تدفق 3 م³/ساعة بلا تسرب، وحرارة مخرج الغاز أقل من 50 م° في الدفعة التالية'],
+ ['6','دفعة بنصف الحمولة (250 كغ)','فحم متجانس اللون، وتسجيل الضغط والوقود'],
+ ['7','دفعة كاملة (500 كغ)','مقارنة ناتج الفحم والقطران بالتقديرات'],
+ ['8','تكرار ثلاث دفعات متتالية','نتائج متقاربة ضمن ±10%، وتعديل البرنامج إن لزم']
+]);
+tbl('t-dry',['المرحلة','معدل الارتفاع','الثبات'],[
+ ['من الحرارة الجوية إلى 120 م°','20 م° في الساعة','12 ساعة'],
+ ['من 120 إلى 350 م°','25 م° في الساعة','8 ساعات'],
+ ['من 350 إلى 600 م°','30 م° في الساعة','6 ساعات'],
+ ['التبريد','طبيعي مع إغلاق المداخن','حتى الحرارة الجوية']
+]);
+tbl('t-log',['الدفعة','التاريخ','ثفل (كغ)','رطوبة %','زمن بلوغ 400 م°','أقصى ضغط','فحم (كغ)','قطران (كغ)','LPG (كغ)','ملاحظات'],[
+ ['1','','','','','','','','',''],['2','','','','','','','','',''],['3','','','','','','','','','']
+]);
+var logTpl='batch\tdate\tfeed_kg\tmoisture_pct\ttime_to_400C\tmax_pressure\tchar_kg\ttar_kg\tlpg_kg\tnotes';
+document.getElementById('logtxt').value=logTpl;
+document.getElementById('b-log').addEventListener('click',function(){copyFrom(this,document.getElementById('logtxt'),logTpl);});
+
+tbl('t-maint',['التكرار','العمل'],[
+ ['بعد كل دفعة','تفريغ الخزان، فحص مستوى مصيدة الماء، فحص صنبور الخزان وتنظيف الباب والحشية'],
+ ['أسبوعيًا','ربط المسامير بعد البرودة، فحص الحشية، فتح فتحات التنظيف وإزالة القطران من أنبوب الغاز'],
+ ['شهريًا','معايرة المزدوجات، فحص صمام الأمان وصمام العزل، تنظيف أنابيب المكثف'],
+ ['كل 6 أشهر','فحص الطوب والعزل والمونة، وقياس سماكة جدار الوعاء بالموجات فوق الصوتية'],
+ ['سنويًا','استبدال الحشية، اختبار تسرب كامل، فحص الأساس والدعامات، اختبار كواشف CO']
+]);
+tbl('t-trouble',['العرَض','السبب المحتمل','الإجراء'],[
+ ['دخان من حول الباب','حشية تالفة أو مسامير مرتخية','أوقف التسخين وابتعد. بعد البرودة اربط المسامير وغيّر الحشية'],
+ ['ارتفاع الضغط أثناء الدفعة','قطران أو ماء يسد أنبوب الغاز أو المكثف','قلّل الشعلة. بعد البرودة نظّف، وتحقق من الميل والعزل'],
+ ['الحرارة لا ترتفع','ثفل رطب أو شعلة ضعيفة أو تسرب هواء في الغرفة','قس رطوبة الثفل وافحص الشعلة والطوب'],
+ ['كتل بنية غير محترقة','صواني سميكة أو حرارة التثبيت منخفضة','قلّل السماكة وأطل زمن التثبيت أو ارفع الحرارة'],
+ ['ناتج الفحم أقل من 29%','حرارة عالية أو تسرب هواء أو رطوبة','راجع الحرارة وإحكام الباب ورطوبة الثفل'],
+ ['قطران في المصيدة','المكثف لا يكفي أو الماء ساخن','زد تدفق الماء، وقس حرارة مخرج الغاز، وأضف وحدة تبريد'],
+ ['لهب الشعلة غير مستقر','غاز عائد رطب أو محمّل بالقطران','حسّن التكثيف وأضف مرشحًا خشنًا قبل الشعلة'],
+ ['الفحم يشتعل عند الفتح','فتح الوعاء قبل 100 م°','أغلق الباب فورًا وانتظر. غطّ الفحم بعد التفريغ'],
+ ['تآكل سريع في الوعاء','أحماض خل الخشب أو حرارة عالية','انتقل إلى فولاذ مقاوم وافحص السماكة سنويًا']
+]);
+
+/* ---------- tabs ---------- */
+var tabsEl=document.getElementById('tabs'),secs=[].slice.call(document.querySelectorAll('main > section'));
+secs.forEach(function(s){
+  var b=document.createElement('button');b.className='tab';b.type='button';b.setAttribute('role','tab');b.id='tab-'+s.id;
+  b.textContent=s.dataset.title;b.addEventListener('click',function(){show(s.id,true)});tabsEl.appendChild(b);
+});
+function show(id,push){
+  if(!secs.some(function(s){return s.id===id}))id='flow';
+  secs.forEach(function(s){s.hidden=(s.id!==id);document.getElementById('tab-'+s.id).setAttribute('aria-selected',String(s.id===id));});
+  if(push&&location.hash!=='#'+id){try{location.hash=id}catch(e){}}
+  window.dispatchEvent(new Event('resize'));
+}
+window.addEventListener('hashchange',function(){show(location.hash.slice(1),false)});
+show(location.hash.slice(1),false);
+
+
+/* ---------- journey table + condensation simulator ---------- */
+tbl('t-journey',['المرحلة','الحرارة (م°)','الحالة','ماذا يحدث','الحماية الهندسية'],[
+ ['1. داخل الوعاء','200 – 400','غاز وأبخرة: ماء وأحماض وقطران وCO وCH₄ وH₂ وCO₂','يتفكك الثفل ويتصاعد ما فيه من مواد متطايرة','مزدوجة TT-101 وبرنامج الحرارة'],
+ ['2. صمام العزل XV-101','300 – 380','غاز حار','يفصل الوعاء عن الخط عند التبريد','مفتوح أثناء الإنتاج ومغلق بعده'],
+ ['3. الأنبوب (5)','250 – 340','بخار دون تكثف','ينقل الغاز بسرعة نحو 9 م/ث','عزل 50 مم، ميل 3%، فتحات تنظيف، وصلة تمدد'],
+ ['4. أعلى المكثف (6)','340 → 120','بخار حار','يبرد الغاز دون أن يتكثف شيء','ماء تبريد بتدفق 3 – 4 م³/ساعة'],
+ ['5. وسط المكثف','120 → 70','تكثيف','تتحول أبخرة الماء والأحماض والقطران إلى سائل ويسيل على جدران الأنابيب','مساحة تبريد نحو 14 م²'],
+ ['6. أسفل المكثف','أقل من 50','غاز وضباب قطرات','يخرج الغاز مبردًا وفيه رذاذ دقيق','مصفاة ضباب (demister) وقياس TT-104'],
+ ['7. الخزان (7)','30 – 50','سائل وغاز','يستقر القطران في القاع ويطفو السائل المائي ويصعد الغاز','صنبوران وزجاجة مستوى ومفتاح مستوى'],
+ ['8. المصيدة','30 – 40','غاز','يمنع رجوع اللهب نحو الوعاء','ماء بمستوى ثابت وكاتم لهب'],
+ ['9. الشعلة','أكثر من 1000 في اللهب','غاز قابل للاشتعال','يحترق ويسخّن الوعاء، فيقل وقود LPG','حساس لهب وصمامان للأمان'],
+ ['10. المدخنة','نحو 300','غاز محترق','يُصرَّف عاليًا بعيدًا عن العاملين','ارتفاع 4 م وغطاء مطر']
+]);
+(function(){
+  var sec=document.getElementById('line');if(!sec)return;
+  var NS='http://www.w3.org/2000/svg';
+  var sl=document.getElementById('tsl'),lab=document.getElementById('tlabel'),btn=document.getElementById('b-play'),
+      insB=document.getElementById('b-ins'),rst=document.getElementById('b-lreset'),path=document.getElementById('gp'),pg=document.getElementById('pg'),
+      stat=document.getElementById('stat');
+  var pts=[[0,25],[0.7,100],[1.0,105],[3.0,400],[4.0,400],[11,100]];
+  function Tr(t){for(var i=1;i<pts.length;i++){if(t<=pts[i][0]){var a=pts[i-1],b=pts[i];return a[1]+(b[1]-a[1])*(t-a[0])/(b[0]-a[0]);}}return pts[pts.length-1][1];}
+  function ss(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);}
+  function M(t){return {w:50*ss(0.7,1.4,t),o:305*ss(1.64,4.0,t)};}
+  function rates(t){var d=0.05,a=M(t-d),b=M(t+d);return {w:(b.w-a.w)/(2*d),o:(b.o-a.o)/(2*d)};}
+  var peak=0;for(var q=0;q<=11;q+=0.02){var rr=rates(q);peak=Math.max(peak,rr.w+rr.o);}
+  var ins=true,playing=false,t=2.5,cur={};
+  var N=32,TOT=912.4,L1=393.38,L2=573.38,dots=[];
+  for(var i=0;i<N;i++){var c=document.createElementNS(NS,'circle');c.setAttribute('r','3.2');pg.appendChild(c);dots.push({el:c,s:i/N*TOT});}
+  function col(T){var k=Math.max(0,Math.min(1,(T-30)/320));return 'rgb('+Math.round(59+196*k)+','+Math.round(130-8*k)+','+Math.round(196-154*k)+')';}
+  function $(id){return document.getElementById(id);}
+  function calc(){
+    var r=rates(t),m=M(t),tr=Tr(t),open=t<=4.05,rate=open?(r.w+r.o):0,load=Math.min(1,rate/peak);
+    var drop=ins?40:120,tp=Math.max(tr-drop,100),to=30+25*load,tw=25+15*load;
+    var tar=0.15*m.o,liq=m.w+0.4*m.o,aq=liq-tar;
+    var flow=open&&rate>0.5;
+    var risk=open&&flow&&(tp<170)&&(r.o>0.1*peak);
+    cur={tr:tr,tp:tp,to:to,tw:tw,rate:rate,load:load,tar:tar,liq:liq,aq:aq,open:open,flow:flow,risk:risk,ro:r.o,rw:r.w};
+  }
+  function render(){
+    calc();var c=cur;
+    lab.textContent=t.toFixed(1)+' ساعة';sl.value=t;
+    $('svT').textContent=Math.round(c.tr)+'°';
+    $('v-tr').textContent=Math.round(c.tr);
+    $('v-tp').textContent=c.flow?Math.round(c.tp):'—';
+    $('v-to').textContent=c.flow?Math.round(c.to):'—';
+    $('v-rate').textContent=Math.round(c.rate);
+    $('v-liq').textContent=Math.round(c.liq);
+    $('v-tar').textContent=Math.round(c.tar);
+    $('svP').textContent=c.flow?('الأنبوب '+Math.round(c.tp)+'°'):'';
+    $('svO').textContent=c.flow?(Math.round(c.to)+'°'):'';
+    $('svW').textContent=c.flow?('ماء خارج '+Math.round(c.tw)+'°'):'ماء خارج';
+    $('svR').textContent=c.risk?'قطران يتكثف في الأنبوب':'';
+    $('valve').setAttribute('fill',c.open?'var(--good)':'var(--ember)');
+    $('flame').style.opacity=t<4.0?'1':'0.05';
+    $('insul').style.opacity=ins?'0.55':'0';
+    var pxL=0.205,hT=c.tar/1.15*pxL,hA=c.aq/1.05*pxL;
+    var lt=$('liqT'),la=$('liqA');
+    lt.setAttribute('y',372-hT);lt.setAttribute('height',hT);
+    la.setAttribute('y',372-hT-hA);la.setAttribute('height',hA);
+    var msg;
+    if(t<0.7)msg='<b>التسخين الأولي.</b> التنفيس مفتوح ويخرج البخار ليطرد الهواء من الوعاء. لا يوجد غاز كربنة بعد.';
+    else if(t<1.64)msg='<b>تبخر رطوبة الثفل.</b> يخرج بخار ماء فقط، ويتكثف جزء منه في الأنبوب ويسيل إلى المكثف بفضل الميل. الخزان يبدأ بالامتلاء بماء.';
+    else if(t<3.0)msg='<b>بدء الانحلال الحراري.</b> يظهر القطران ويزداد التدفق. هنا يظهر دور العزل: جرّب إيقافه لترى الأنبوب يبرد ويبدأ القطران بالتكثف داخله.';
+    else if(t<=4.05)msg='<b>الذروة ثم ثبات 400 م°.</b> التدفق في أعلاه والمكثف في أقصى حمله، وحرارة مخرجه ترتفع. راقب أن تبقى تحت 50 م°.';
+    else msg='<b>انتهى الإنتاج الغازي.</b> أُغلق صمام العزل والوعاء يبرد مغلقًا. بعد أن يتوقف التدفق يمكن تفريغ الخزان إلى البراميل بأمان.';
+    stat.className='warnbox'+(c.risk?' bad':'');
+    stat.innerHTML=(c.risk?'<b>خطر انسداد:</b> حرارة الغاز في الأنبوب أقل من 170 م° والقطران يخرج، فيلتصق بالجدار. ارفع العزل أو ابطئ التسخين.<br>':'')+msg;
+  }
+  sl.addEventListener('input',function(){t=+sl.value;playing=false;btn.textContent='تشغيل';render();});
+  btn.addEventListener('click',function(){if(t>=11)t=0;playing=!playing;btn.textContent=playing?'إيقاف مؤقت':'تشغيل';});
+  rst.addEventListener('click',function(){t=0;playing=false;btn.textContent='تشغيل';render();});
+  insB.addEventListener('click',function(){ins=!ins;insB.setAttribute('aria-pressed',String(ins));render();});
+  var last=performance.now(),reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function loop(now){
+    requestAnimationFrame(loop);
+    var dt=Math.min(0.05,(now-last)/1000);last=now;
+    if(!sec.offsetWidth)return;
+    if(playing){t+=dt*0.4;if(t>=11){t=11;playing=false;btn.textContent='تشغيل';}render();}
+    var c=cur,speed=c.flow?(60+700*c.load):0;
+    if(reduce)speed=0;
+    dots.forEach(function(d){
+      d.s=(d.s+speed*dt)%TOT;
+      var p=path.getPointAtLength(d.s);d.el.setAttribute('cx',p.x);d.el.setAttribute('cy',p.y);
+      var T=d.s<L1?c.tp:(d.s<L2?c.tp+(c.to-c.tp)*(d.s-L1)/(L2-L1):c.to);
+      d.el.setAttribute('fill',col(T));d.el.setAttribute('opacity',c.flow?'0.95':'0.12');
+    });
+  }
+  render();requestAnimationFrame(loop);
+})();
+
+
+/* ---------- pilot model tables ---------- */
+tbl('p-comp',['الجزء','المواصفة','ملاحظة'],[
+ ['1. البرميل الداخلي','برميل 200 لتر {{Ø580 × 880 mm}} بحلقة وحشية، أو صفيحة 3 مم مصنوعة','التجاري رقيق (نحو 1.2 مم) ويتآكل بعد دفعات قليلة عند 400 م°.'],
+ ['2. الغرفة الخارجية','أسطوانة {{Ø800 × 1100 mm}} صفيحة 3 مم بغطاء قابل للإزالة','الفجوة حول البرميل 110 مم. جدارها يحمرّ، فيحتاج فولاذًا سميكًا أو مقاومًا للحرارة.'],
+ ['3. الفجوة','حلقة 110 مم حول البرميل و120 مم تحته','فيها يحترق غاز الكربنة. تُترك الدعامات الثلاث بارتفاع 120 مم لتمرير الغاز.'],
+ ['4. الشعلة','حلقية بوتان {{25–40 kW}} بصمام أمان بمزدوجة','تحت الغرفة بنحو 30 سم من أرضيتها، وداخل حلقة الطوب.'],
+ ['5. حلقة الطوب والمدخنة','قطر داخلي 900 وخارجي 1130 وارتفاع 1100 مم، نحو 260 طوبة. مدخنة {{Ø150 × 3000 mm}}','تحبس لهب البوتان حول الغرفة وتوجهه إلى المدخنة.'],
+ ['6. أسطوانات البوتان','2 إلى 3 أسطوانة 13 كغ بمشعب ومنظم وخرطوم','خارج المبنى وقائمة، ولا تُسخَّن باللهب.'],
+ ['7. أنبوب الغاز','فولاذ {{Ø50}} بميل 3% نحو المكثف، معزول، عليه صمام كروي يتحمل 400 م°','السرعة نحو 7 م/ث في الذروة.'],
+ ['8. المكثف','ملف أنبوب {{Ø25 × 17 m}} (نحو 1.3 م²) في برميل ماء 200 لتر','ماء متجدد بتدفق 0.5 م³/ساعة، فالماء الراكد يسخن أكثر من 40 م° في الدفعة.'],
+ ['9. جرة القطران','30 لترًا مع صنبور','سوائل الدفعة نحو 16 إلى 20 كغ.'],
+ ['10. مصيدة الماء','{{Ø150 × 250 mm}} بعمق ماء 10 سم','تمنع رجوع اللهب، وتعمل صمام أمان يتنفس عند نحو 1 كيلوباسكال.'],
+ ['11. أنبوب العودة وصمام الهواء','{{Ø40}} إلى أسفل الفجوة، وصمام هواء {{Ø15}} على الأنبوب','يدخل الغاز مع قليل من الهواء فيحترق في الفجوة. فتحة مراقبة {{Ø15}} بسدادة.'],
+ ['12. مخرج الفجوة','{{Ø75}} إلى المدخنة، مفتوح دائمًا','يخرج منه الغاز المحترق من الفجوة.'],
+ ['13. القياس','مزدوجتان {{K}}: داخل البرميل (TT-1) وفي الفجوة (TT-2)','تمرّان من الغطاء بجلبة ألياف سيراميك.']
+]);
+tbl('p-heat',['البند','الحساب','الطاقة (MJ)'],[
+ ['تسخين الثفل 45 كغ من 25 إلى 400 م°','45 × 1.5 × 375','25'],
+ ['البرميل (نحو 20 كغ)','20 × 0.5 × 375','4'],
+ ['الغرفة (نحو 88 كغ)','88 × 0.5 × 500','22'],
+ ['رطوبة 10% (4.5 كغ)','4.5 × 2570','12'],
+ ['تفاعل الانحلال الحراري','45 × 0.5','23'],
+ ['المجموع المفيد','','نحو 85'],
+ ['الوقود بكفاءة 25%','85 ÷ 0.25 = 340 MJ','نحو 7.4 كغ بوتان'],
+ ['حتى بدء الغاز (200 م°)','نحو 38 ÷ 0.25 = 154 MJ','نحو 3.3 كغ بوتان'],
+ ['قدرة الشعلة','340 MJ على 2.5 ساعة','نحو 38 كيلوواط']
+],{num:[2]});
+document.querySelectorAll('#p-heat tbody tr:nth-child(6)').forEach(function(r){r.className='total';});
+tbl('p-bom',['البند','المواصفة','الكمية'],[
+ ['برميل داخلي','200 لتر بحلقة (أو صفيحة 3 مم)','1'],
+ ['غرفة خارجية','صفيحة 3 مم {{Ø800 × 1100}} مع غطاء','1'],
+ ['حلقة طوب حراري','{{230 × 114 × 65}}','نحو 260'],
+ ['عزل ألياف سيراميك','50 مم للغطاء وأعلى الغرفة','2 م²'],
+ ['شعلة حلقية بوتان','25–40 كيلوواط بصمام أمان بمزدوجة','1'],
+ ['مشعب ومنظم وخرطوم','للبوتان، مع صمام قطع','1 مجموعة'],
+ ['أسطوانات بوتان','13 كغ','3'],
+ ['أنابيب فولاذ','{{Ø50}} نحو 2.5 م، {{Ø40}} نحو 1 م، {{Ø75}} نحو 1 م','حسب الحاجة'],
+ ['صمام كروي','{{Ø50}} يتحمل 400 م°','1'],
+ ['صمام هواء','كروي {{Ø15}}','1'],
+ ['ملف المكثف','أنبوب فولاذ {{Ø25}} بطول 17 م','1'],
+ ['برميل ماء للمكثف','200 لتر مع دخول وتصريف، ومضخة أو وصلة ماء 0.5 م³/ساعة','1'],
+ ['جرة قطران','30 لترًا مع صنبور','1'],
+ ['مصيدة ماء','{{Ø150 × 250}}','1'],
+ ['مدخنة','{{Ø150 × 3000}}','1'],
+ ['مزدوجتان حراريتان','{{K}} مع مؤشر','2'],
+ ['حبل ألياف سيراميك','{{Ø10}} لحشية البرميل والغطاء','3 م'],
+ ['كاشف CO ومطفأتان','مسحوق جاف','1 + 2']
+]);
+
+/* ---------- pilot 3D model ---------- */
+(function(){
+  var host=document.getElementById('stage2'),msg=document.getElementById('stage2-msg'),renderer;
+  var pp=[
+   {n:1,t:'البرميل الداخلي (الوعاء)',d:'برميل 200 لتر Ø580 × 880 مم مغلق بحلقة وحشية. فيه 40 إلى 45 كغ ثفل مجفف ولا يلامس اللهب.',p:[0,1.0,0.3]},
+   {n:2,t:'الغرفة الخارجية',d:'أسطوانة Ø800 × 1100 مم بغطاء معزول. النار الخارجية تسخّن جدارها فيسخّن الفجوة والبرميل.',p:[0,1.25,0.42]},
+   {n:3,t:'الفجوة',d:'حلقة 110 مم بين البرميل والغرفة. يدخل إليها غاز الكربنة من أسفلها ويحترق بقليل من الهواء ثم يخرج من أعلاها.',p:[-0.345,1.1,0]},
+   {n:4,t:'شعلة البوتان الحلقية',d:'تحت أرضية الغرفة. تسخّن الغرفة من الخارج، وتبدأ بصمام أمان بمزدوجة يقطع الغاز إن انطفأ اللهب.',p:[0,0.2,0.25]},
+   {n:5,t:'حلقة الطوب والمدخنة',d:'تحبس لهب البوتان حول الغرفة وتخرجه في مدخنة Ø150 بارتفاع 3 م.',p:[-0.9,1.9,0]},
+   {n:6,t:'أسطوانات البوتان',d:'2 إلى 3 أسطوانات بمشعب ومنظم، خارج المبنى وقائمة.',p:[-1.375,0.68,0.25]},
+   {n:7,t:'أنبوب الغاز الخارج من البرميل',d:'Ø50 مم يميل نحو المكثف، ومعزول، وعليه صمام كروي يُغلق عند التبريد.',p:[0.65,1.86,0]},
+   {n:8,t:'المكثف',d:'ملف أنبوب Ø25 × 17 م في برميل ماء 200 لتر متجدد، يبرد الأبخرة ويحوّلها إلى سائل.',p:[1.25,1.2,0.3]},
+   {n:9,t:'جرة القطران',d:'30 لترًا تجمع القطران والسائل المائي، وتُفرَّغ بعد توقف الغاز.',p:[1.08,0.48,0.16]},
+   {n:10,t:'مصيدة الماء',d:'بعمق ماء 10 سم تمنع رجوع اللهب، وتتنفس كصمام أمان عند ضغط نحو 1 كيلوباسكال.',p:[0.68,0.33,0.08]},
+   {n:11,t:'أنبوب العودة وصمام الهواء',d:'يعيد الغاز إلى أسفل الفجوة، وصمام الهواء يضبط احتراقه هناك.',p:[0.8,0.45,0]},
+   {n:12,t:'مخرج الفجوة',d:'Ø75 مم إلى المدخنة. يبقى مفتوحًا دائمًا حتى لا يتراكم الغاز.',p:[-0.65,1.48,0]},
+   {n:13,t:'المزدوجتان الحراريتان',d:'TT-1 داخل البرميل وTT-2 في الفجوة، تمرّان من الغطاء.',p:[0,1.85,0]}
+  ];
+  var pa=0,pl=[];
+  function setP(n){pa=(pa===n?0:n);pl.forEach(function(f){f()});}
+  var ul=document.getElementById('legend-p'),info=document.getElementById('info-p');
+  pp.forEach(function(p){
+    var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.dataset.n=p.n;
+    b.innerHTML='<span class="n">'+p.n+'</span><span><b>'+p.t+'</b><br><span style="color:var(--muted)">'+p.d+'</span></span>';
+    b.addEventListener('click',function(){setP(p.n)});li.appendChild(b);ul.appendChild(li);
+  });
+  pl.push(function(){
+    var q=pp.filter(function(x){return x.n===pa})[0];
+    info.innerHTML=q?('<b>'+q.n+'. '+q.t+'</b><br>'+q.d):'<b>اختر رقمًا</b> من النموذج أو من القائمة لعرض وظيفة الجزء.';
+    ul.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.n===pa));});
+  });
+  try{ if(!window.THREE) throw new Error('no three'); renderer=new THREE.WebGLRenderer({antialias:true,alpha:true}); }
+  catch(e){ msg.hidden=false; return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  host.appendChild(renderer.domElement);
+  var cv=renderer.domElement;
+  var scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(36,1,0.1,100),group=new THREE.Group();
+  scene.add(group);
+  scene.add(new THREE.HemisphereLight(0xffffff,0x6c7a86,0.85));
+  var sun=new THREE.DirectionalLight(0xffffff,0.85);sun.position.set(5,9,7);scene.add(sun);
+  var fireLight=new THREE.PointLight(0xff7a2a,1.0,2.4);fireLight.position.set(0,0.2,0);group.add(fireLight);
+
+  function mat(c,o){return new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.6,metalness:0.25,side:THREE.DoubleSide},o||{}));}
+  var steel=mat(0x8a99a6,{metalness:0.45,roughness:0.45}),dark=mat(0x56636e),lag=mat(0xd9c46a,{roughness:0.8}),red=mat(0xd2432b),conc=mat(0x9aa2a8,{roughness:0.95,metalness:0}),
+      blueDrum=mat(0x2f6fb5,{metalness:0.3,roughness:0.5}),copper=mat(0xb87333,{metalness:0.6,roughness:0.4}),fiber=mat(0xe8e0c8,{roughness:1,metalness:0}),tank=mat(0xc94a2a,{roughness:0.5});
+  var ringMat=new THREE.MeshStandardMaterial({color:0xb4553a,roughness:0.9,metalness:0,side:THREE.DoubleSide});
+  var chMat=new THREE.MeshStandardMaterial({color:0x7d8c98,roughness:0.5,metalness:0.45,side:THREE.DoubleSide});
+  var edgeMat=new THREE.LineBasicMaterial({color:0x1a2530,transparent:true,opacity:0.35});
+
+  function box(w,h,d,x,y,z,m){var o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);group.add(o);return o;}
+  function cylY(r,h,x,y,z,m,seg,open){var o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,seg||40,1,!!open),m);o.position.set(x,y,z);group.add(o);return o;}
+  function pipe(a,b,r,m){var A=new THREE.Vector3(a[0],a[1],a[2]),B=new THREE.Vector3(b[0],b[1],b[2]),len=A.distanceTo(B);
+    var o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,len,14),m);o.position.copy(A).add(B).multiplyScalar(0.5);
+    o.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());group.add(o);return o;}
+  function joint(p,r,m){var o=new THREE.Mesh(new THREE.SphereGeometry(r,14,10),m);o.position.set(p[0],p[1],p[2]);group.add(o);}
+
+  /* ground */
+  var g0=box(4.8,0.06,2.0,0.6,-0.03,0,conc);g0.add(new THREE.LineSegments(new THREE.EdgesGeometry(g0.geometry),edgeMat));
+  var grid=new THREE.GridHelper(10,20,0x7a8894,0x7a8894);grid.position.y=-0.06;grid.material.transparent=true;grid.material.opacity=0.22;group.add(grid);
+
+  /* brick ring (outer + inner + top) */
+  cylY(0.565,1.1,0,0.55,0,ringMat,64,true);cylY(0.45,1.1,0,0.55,0,ringMat,64,true);
+  var top=new THREE.Mesh(new THREE.RingGeometry(0.45,0.565,64),ringMat);top.rotation.x=-Math.PI/2;top.position.y=1.1;group.add(top);
+
+  /* chamber */
+  cylY(0.4,1.1,0,0.95,0,chMat,64,true);
+  var fl=new THREE.Mesh(new THREE.CircleGeometry(0.4,48),dark);fl.rotation.x=-Math.PI/2;fl.position.y=0.4;group.add(fl);
+  [[0.3,0],[-0.3,0],[0,0.3],[0,-0.3]].forEach(function(p){box(0.05,0.34,0.05,p[0],0.23,p[1],dark);});
+  cylY(0.42,0.04,0,1.52,0,dark,64);cylY(0.46,0.06,0,1.57,0,fiber,64);
+
+  /* drum */
+  cylY(0.29,0.88,0,0.96,0,blueDrum,48);
+  [0.7,1.0,1.3].forEach(function(y){cylY(0.295,0.02,0,y,0,dark,48);});
+  cylY(0.3,0.03,0,1.415,0,dark,48);cylY(0.31,0.04,0,1.44,0,steel,48);
+  [[0.15,0],[-0.075,0.13],[-0.075,-0.13]].forEach(function(p){box(0.06,0.12,0.06,p[0],0.46,p[1],dark);});
+
+  /* burner */
+  var torus=new THREE.Mesh(new THREE.TorusGeometry(0.22,0.018,10,40),dark);torus.rotation.x=Math.PI/2;torus.position.y=0.06;group.add(torus);
+  var flames=[];
+  for(var i=0;i<16;i++){var a=i/16*Math.PI*2,f=new THREE.Mesh(new THREE.ConeGeometry(0.028,0.11,8),new THREE.MeshBasicMaterial({color:0xff7a1a,transparent:true,opacity:0.92}));
+    f.position.set(0.22*Math.cos(a),0.125,0.22*Math.sin(a));group.add(f);flames.push(f);}
+  /* cylinders + feed */
+  [-1.55,-1.2].forEach(function(x){cylY(0.15,0.55,x,0.275,0.25,tank,32);cylY(0.04,0.08,x,0.59,0.25,dark,12);});
+  pipe([-1.55,0.62,0.25],[-1.0,0.62,0.25],0.015,lag);
+  pipe([-1.0,0.62,0.25],[-1.0,0.06,0],0.015,lag);pipe([-1.0,0.06,0],[-0.22,0.06,0],0.015,lag);
+
+  /* stack and gap exit */
+  cylY(0.075,3.0,-0.9,1.5,0,steel,24);
+  pipe([-0.565,1.0,0],[-0.9,1.0,0],0.06,steel);
+  pipe([-0.4,1.4,0],[-0.9,1.4,0],0.04,lag);
+
+  /* gas out, condenser */
+  pipe([0.21,1.45,0],[0.21,1.78,0],0.025,lag);joint([0.21,1.78,0],0.025,lag);pipe([0.21,1.78,0],[1.08,1.7,0],0.025,lag);joint([1.08,1.7,0],0.025,lag);pipe([1.08,1.7,0],[1.08,1.3,0],0.025,lag);
+  var v=new THREE.Mesh(new THREE.SphereGeometry(0.05,14,10),red);v.position.set(0.65,1.74,0);group.add(v);
+  [[1.05,0.2],[1.45,0.2],[1.05,-0.2],[1.45,-0.2]].forEach(function(p){box(0.05,0.5,0.05,p[0],0.25,p[1],dark);});
+  var barrel=new THREE.Mesh(new THREE.CylinderGeometry(0.29,0.29,0.88,40),new THREE.MeshStandardMaterial({color:0x3f86ad,transparent:true,opacity:0.3,side:THREE.DoubleSide,depthWrite:false}));
+  barrel.position.set(1.25,0.94,0);group.add(barrel);
+  var cp=[];for(var k=0;k<=160;k++){var ang=Math.PI+k/40*Math.PI*2;cp.push(new THREE.Vector3(1.25+0.17*Math.cos(ang),1.3-k/160*0.7,0.17*Math.sin(ang)));}
+  group.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(cp),400,0.012,6,false),copper));
+  pipe([1.08,0.6,0],[1.08,0.38,0],0.02,lag);
+  pipe([1.05,1.3,0],[1.05,1.38,0],0.02,lag);
+  cylY(0.15,0.4,1.08,0.2,0,dark,36);
+  /* jar -> seal -> return */
+  pipe([0.93,0.33,0],[0.717,0.33,0],0.02,lag);joint([0.717,0.33,0],0.02,lag);pipe([0.717,0.33,0],[0.717,0.2,0],0.02,lag);
+  cylY(0.07,0.25,0.68,0.125,0,mat(0xcfe3f1,{transparent:true,opacity:0.5,metalness:0,roughness:0.2}),24);
+  cylY(0.065,0.12,0.68,0.06,0,mat(0x2f86d6,{transparent:true,opacity:0.85,metalness:0}),24);
+  pipe([0.646,0.25,0],[0.646,0.46,0],0.02,lag);joint([0.646,0.46,0],0.02,lag);pipe([0.646,0.46,0],[0.4,0.46,0],0.02,lag);
+  pipe([0.646,0.375,0],[0.8,0.375,0],0.012,mat(0x2b7bd6));
+  var av=new THREE.Mesh(new THREE.SphereGeometry(0.035,12,8),red);av.position.set(0.8,0.375,0);group.add(av);
+
+  /* thermocouples */
+  cylY(0.01,0.9,0,1.3,0,red,8);box(0.08,0.08,0.08,0,1.78,0,red);
+  cylY(0.01,0.82,-0.345,1.21,0,red,8);box(0.08,0.08,0.08,-0.345,1.65,0,red);
+
+  /* pins */
+  var pins=pp.map(function(p){
+    var b=document.createElement('button');b.type='button';b.className='pin';b.textContent=p.n;b.setAttribute('aria-label',p.t);b.setAttribute('aria-pressed','false');
+    b.addEventListener('click',function(e){e.stopPropagation();setP(p.n)});host.appendChild(b);return b;});
+  pl.push(function(){pins.forEach(function(b,i){b.setAttribute('aria-pressed',String(pp[i].n===pa))});});
+
+  /* orbit */
+  var target=new THREE.Vector3(0.4,1.2,0),D0={th:0.6,ph:1.15,d:8.6},th=D0.th,ph=D0.ph,dist=D0.d,spin=false;
+  var clipOn=true,pinsOn=true,plane=new THREE.Plane(new THREE.Vector3(0,0,-1),0);renderer.clippingPlanes=[plane];
+  function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
+  function place(){camera.position.set(target.x+dist*Math.sin(ph)*Math.sin(th),target.y+dist*Math.cos(ph),target.z+dist*Math.sin(ph)*Math.cos(th));camera.lookAt(target);plane.normal.set(-Math.sin(th),0,-Math.cos(th));plane.constant=0;}
+  var ptrs=new Map(),pinch=0;
+  function pd(){var a=Array.from(ptrs.values());return Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)||1;}
+  cv.addEventListener('pointerdown',function(e){try{cv.setPointerCapture(e.pointerId)}catch(_){}ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});if(ptrs.size===2)pinch=pd();});
+  cv.addEventListener('pointermove',function(e){var p=ptrs.get(e.pointerId);if(!p)return;var dx=e.clientX-p.x,dy=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;
+    if(ptrs.size===1){th-=dx*0.008;ph=clamp(ph-dy*0.006,0.25,1.5);}
+    else if(ptrs.size===2){var d=pd();dist=clamp(dist*pinch/d,3,20);pinch=d;}place();});
+  ['pointerup','pointercancel'].forEach(function(ev){cv.addEventListener(ev,function(e){ptrs.delete(e.pointerId);});});
+  cv.addEventListener('wheel',function(e){e.preventDefault();dist=clamp(dist*(1+e.deltaY*0.001),3,20);place();},{passive:false});
+  place();
+
+  function tog(id,fn){var b=document.getElementById(id);b.addEventListener('click',function(){var on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',String(on));fn(on);});}
+  tog('bp-clip',function(on){clipOn=on;renderer.clippingPlanes=on?[plane]:[];});
+  tog('bp-pins',function(on){pinsOn=on;});
+  tog('bp-cut',function(on){ringMat.opacity=on?0.18:1;ringMat.transparent=on;ringMat.depthWrite=!on;ringMat.needsUpdate=true;
+    chMat.opacity=on?0.28:1;chMat.transparent=on;chMat.depthWrite=!on;chMat.needsUpdate=true;});
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  tog('bp-spin',function(on){spin=on&&!reduce;});
+  document.getElementById('bp-zin').addEventListener('click',function(){dist=clamp(dist*0.85,3,20);place();});
+  document.getElementById('bp-zout').addEventListener('click',function(){dist=clamp(dist/0.85,3,20);place();});
+  document.getElementById('bp-reset').addEventListener('click',function(){th=D0.th;ph=D0.ph;dist=D0.d;place();});
+
+  var vec=new THREE.Vector3(),w=0,h=0;
+  function resize(){w=host.clientWidth;h=host.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+  if(window.ResizeObserver)new ResizeObserver(resize).observe(host);window.addEventListener('resize',resize);resize();
+  var t0=performance.now();
+  function frame(now){
+    requestAnimationFrame(frame);
+    if(!host.offsetWidth)return;
+    if(!w)resize();
+    var t=(now-t0)/1000;
+    if(spin){th+=0.004;place();}
+    flames.forEach(function(f,i){f.scale.y=1+0.25*Math.sin(t*14+i)+0.1*Math.sin(t*23+i*2);});
+    fireLight.intensity=0.9+0.25*Math.sin(t*17);
+    renderer.render(scene,camera);
+    var cdx=Math.sin(th),cdz=Math.cos(th);
+    pp.forEach(function(p,i){
+      var px=p.p[0],pz=p.p[2];
+      if(clipOn){var k=px*cdx+pz*cdz;if(k>0){px-=k*cdx;pz-=k*cdz;}}
+      vec.set(px,p.p[1],pz).applyMatrix4(group.matrixWorld).project(camera);
+      var x=(vec.x*0.5+0.5)*w,y=(-vec.y*0.5+0.5)*h;
+      pins[i].style.transform='translate('+x+'px,'+y+'px) translate(-50%,-50%)';
+      pins[i].style.display=(pinsOn&&vec.z<1)?'':'none';
+    });
+  }
+  requestAnimationFrame(frame);
+  pl.forEach(function(f){f();});
+})();
+
+/* ---------- temperature curve ---------- */
+(function(){
+  var svg=document.getElementById('curve');
+  var L=52,R=660,T=20,B=262,tmax=11.5,Tmax=450;
+  function X(t){return L+(R-L)*t/tmax}function Y(c){return B-(B-T)*c/Tmax}
+  var pts=[[0,25],[0.7,100],[1.0,105],[3.0,400],[4.0,400],[11,100]];
+  var h='';
+  [0,100,200,300,400].forEach(function(c){h+='<line x1="'+L+'" x2="'+R+'" y1="'+Y(c)+'" y2="'+Y(c)+'" stroke="var(--line)"/><text x="'+(L-6)+'" y="'+(Y(c)+4)+'" text-anchor="end" style="fill:var(--muted)">'+c+'</text>';});
+  for(var t=0;t<=11;t+=1){h+='<text x="'+X(t)+'" y="'+(B+16)+'" text-anchor="middle" style="fill:var(--muted)">'+t+'</text>';}
+  h+='<text x="'+((L+R)/2)+'" y="'+(B+34)+'" text-anchor="middle" style="fill:var(--muted)">الزمن بالساعات</text>';
+  h+='<text x="14" y="'+T+'" style="fill:var(--muted)">م°</text>';
+  h+='<rect x="'+X(3)+'" y="'+Y(400)+'" width="'+(X(4)-X(3))+'" height="'+(B-Y(400))+'" fill="var(--ember)" opacity=".12"/>';
+  h+='<polyline fill="none" stroke="var(--ember)" stroke-width="3" stroke-linejoin="round" points="'+pts.map(function(p){return X(p[0])+','+Y(p[1])}).join(' ')+'"/>';
+  var mk=[[0.7,100,'طرد الهواء بالبخار',-10,-10,'start'],[1.64,200,'نحو 200 م°: يبدأ القطران',8,6,'start'],[3.5,400,'ثبات 400 م° ساعة',0,-10,'middle'],[11,100,'فتح الوعاء تحت 100 م°',-4,-10,'end']];
+  mk.forEach(function(m){h+='<circle cx="'+X(m[0])+'" cy="'+Y(m[1])+'" r="4.5" fill="var(--ink)"/><text x="'+(X(m[0])+m[3])+'" y="'+(Y(m[1])+m[4])+'" text-anchor="'+m[5]+'">'+m[2]+'</text>';});
+  svg.innerHTML=h;
+})();
+
+/* ---------- safety checklist ---------- */
+(function(){
+  var items=['فتحة التنفيس مفتوحة حتى يظهر بخار ثابت قبل إغلاقها',
+   'مصيدة الماء وكاتم اللهب ممتلئان وسليمان',
+   'كاشف CO يعمل والتهوية كافية',
+   'صمام الأمان مضبوط ويتجه إلى أعلى بعيدًا عن الأشخاص',
+   'مطفأة مسحوق جاف أو CO₂ في المتناول وماء قريب',
+   'لا أحد أمام الباب عند الفتح، والحرارة أقل من 100 م°',
+   'قفازات حرارية ونظارات وملابس قطنية',
+   'الموقع بعيد عن المباني والمواد القابلة للاشتعال',
+   'ملف التصريح البيئي والحماية المدنية جاهز',
+   'التصميم راجعه مهندس ميكانيكي أو حراري قبل التصنيع'];
+  var ul=document.getElementById('chk'),saved={};
+  try{saved=JSON.parse(localStorage.getItem('furnace-chk')||'{}')}catch(e){}
+  items.forEach(function(t,i){
+    var li=document.createElement('li'),lb=document.createElement('label'),cb=document.createElement('input'),sp=document.createElement('span');
+    cb.type='checkbox';cb.id='c'+i;cb.checked=!!saved[i];sp.textContent=t;
+    cb.addEventListener('change',function(){saved[i]=cb.checked;try{localStorage.setItem('furnace-chk',JSON.stringify(saved))}catch(e){}upd()});
+    lb.appendChild(cb);lb.appendChild(sp);li.appendChild(lb);ul.appendChild(li);
+  });
+  function upd(){var n=items.filter(function(_,i){return saved[i]}).length;
+    document.getElementById('prog').firstChild.nodeValue=n+' من '+items.length;
+    document.getElementById('barfill').style.width=(100*n/items.length)+'%';}
+  upd();
+})();
+
+/* ---------- 3D model ---------- */
+(function(){
+  var host=document.getElementById('stage'),msg=document.getElementById('stage-msg'),renderer;
+  try{ if(!window.THREE) throw new Error('no three'); renderer=new THREE.WebGLRenderer({antialias:true,alpha:true}); }
+  catch(e){ msg.hidden=false; return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  host.appendChild(renderer.domElement);
+  var cv=renderer.domElement;
+  var scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(36,1,0.1,100),group=new THREE.Group();
+  scene.add(group);
+  scene.add(new THREE.HemisphereLight(0xffffff,0x6c7a86,0.85));
+  var sun=new THREE.DirectionalLight(0xffffff,0.85);sun.position.set(5,9,7);scene.add(sun);
+  var fireLight=new THREE.PointLight(0xff7a2a,1.1,2.6);fireLight.position.set(-0.2,0.5,0);group.add(fireLight);
+
+  function mat(c,o){return new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.6,metalness:0.25,side:THREE.DoubleSide},o||{}));}
+  var steel=mat(0x8a99a6,{metalness:0.45,roughness:0.45}),darkSteel=mat(0x56636e),brick=mat(0xb4553a,{roughness:0.9,metalness:0}),
+      lag=mat(0xd9c46a,{roughness:0.8}),blue=mat(0x3f86ad),red=mat(0xd2432b),yel=mat(0xe0a21a),conc=mat(0x9aa2a8,{roughness:0.95,metalness:0}),
+      cutMat=mat(0xb4553a,{roughness:0.9,metalness:0});
+  var edgeMat=new THREE.LineBasicMaterial({color:0x1a2530,transparent:true,opacity:0.35});
+
+  function box(w,h,d,x,y,z,m,edges){var o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);group.add(o);
+    if(edges){o.add(new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry),edgeMat));}return o;}
+  function cylX(r,len,x,y,z,m,seg){var o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,len,seg||48),m);o.rotation.z=Math.PI/2;o.position.set(x,y,z);group.add(o);return o;}
+  function cylY(r,h,x,y,z,m,seg){var o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,seg||32),m);o.position.set(x,y,z);group.add(o);return o;}
+  function pipe(a,b,r,m){var A=new THREE.Vector3(a[0],a[1],a[2]),B=new THREE.Vector3(b[0],b[1],b[2]),len=A.distanceTo(B);
+    var o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,len,16),m);o.position.copy(A).add(B).multiplyScalar(0.5);
+    o.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());group.add(o);return o;}
+  function joint(p,r,m){var o=new THREE.Mesh(new THREE.SphereGeometry(r,16,12),m);o.position.set(p[0],p[1],p[2]);group.add(o);}
+
+  /* ground */
+  box(6.2,0.12,3.0,0.35,-0.06,0,conc,true);
+  var grid=new THREE.GridHelper(12,24,0x7a8894,0x7a8894);grid.position.y=-0.12;grid.material.transparent=true;grid.material.opacity=0.22;group.add(grid);
+
+  /* chamber */
+  box(2.4,0.2,2.0,0,0.1,0,brick,true);
+  box(2.4,2.0,0.2,0,1.0,-0.9,brick,true);
+  box(2.4,2.0,0.2,0,1.0,0.9,cutMat,true);
+  box(0.2,2.0,1.6,-1.1,1.0,0,brick,true);
+  box(0.2,2.0,1.6,1.1,1.0,0,brick,true);
+  box(2.4,0.2,2.0,0,1.9,0,cutMat,true);
+  box(0.15,0.25,0.5,-0.5,0.325,0,darkSteel);
+  box(0.15,0.25,0.5,0.8,0.325,0,darkSteel);
+
+  /* retort */
+  cylX(0.6,2.3,0.2,1.05,0,steel);
+  [-0.5,0.2,0.9].forEach(function(x){cylX(0.62,0.05,x,1.05,0,darkSteel);});
+  cylX(0.68,0.08,1.39,1.05,0,darkSteel);
+  for(var i=0;i<12;i++){var a=i/12*Math.PI*2;box(0.05,0.07,0.07,1.45,1.05+0.64*Math.cos(a),0.64*Math.sin(a),red);}
+  box(0.08,0.08,0.5,1.5,1.05,0,darkSteel);
+
+  /* burner + flame */
+  cylY(0.09,0.1,-0.2,0.25,0,darkSteel);
+  var flame=new THREE.Mesh(new THREE.ConeGeometry(0.12,0.2,16),new THREE.MeshBasicMaterial({color:0xff7a1a,transparent:true,opacity:0.92}));
+  flame.position.set(-0.2,0.4,0);group.add(flame);
+
+  /* gas line */
+  var gasP=[-0.6,1.65,0],g2=[-0.6,3.7,0],g3=[-2.0,3.6,0],g4=[-2.0,3.0,0];
+  pipe(gasP,g2,0.06,lag);joint(g2,0.06,lag);pipe(g2,g3,0.06,lag);joint(g3,0.06,lag);pipe(g3,g4,0.06,lag);
+  cylY(0.09,0.15,-0.6,2.3,0,red);  /* isolation valve */
+  /* tank + condenser */
+  cylY(0.4,0.8,-2.0,0.4,0,darkSteel,40);
+  cylY(0.225,2.2,-2.0,1.9,0,blue,32);
+  pipe([-2.225,1.0,0],[-2.6,1.0,0],0.03,mat(0x2b7bd6));
+  pipe([-2.225,2.6,0],[-2.6,2.6,0],0.03,mat(0x2b7bd6));
+  pipe([-2.0,0.12,0.4],[-2.0,0.12,0.85],0.03,darkSteel);joint([-2.0,0.12,0.85],0.06,red);
+  /* water seal */
+  cylY(0.14,0.5,-1.4,0.25,0,mat(0xcfe3f1,{transparent:true,opacity:0.5,metalness:0,roughness:0.2}));
+  cylY(0.13,0.24,-1.4,0.13,0,mat(0x2f86d6,{transparent:true,opacity:0.85,metalness:0}));
+  pipe([-1.775,1.3,0],[-1.4,1.3,0],0.03,lag);joint([-1.4,1.3,0],0.03,lag);pipe([-1.4,1.3,0],[-1.4,0.5,0],0.03,lag);
+  pipe([-1.4,0.3,0],[-0.2,0.3,0],0.035,lag);
+
+  /* chimney */
+  cylY(0.16,2.0,0.8,3.0,-0.4,steel);cylY(0.2,0.05,0.8,4.0,-0.4,darkSteel);
+
+  /* instruments */
+  cylY(0.04,0.6,-0.1,1.95,0,yel);cylY(0.08,0.08,-0.1,2.29,0,red);
+  cylY(0.015,0.65,0.45,1.975,0,red);box(0.1,0.1,0.1,0.45,2.35,0,red);
+
+  /* container + panel */
+  box(1.0,0.7,0.8,2.1,0.35,0,darkSteel,true);box(1.04,0.05,0.84,2.1,0.725,0,steel);
+  box(0.6,1.1,0.3,2.95,0.85,0.9,mat(0x2d3a45));
+  box(0.4,0.25,0.02,2.95,1.1,1.06,new THREE.MeshBasicMaterial({color:0x5fd39a}));
+  cylY(0.03,0.3,2.75,0.15,0.9,darkSteel,12);cylY(0.03,0.3,3.15,0.15,0.9,darkSteel,12);
+
+  /* pins */
+  var pins=parts.map(function(p){
+    var b=document.createElement('button');b.type='button';b.className='pin';b.textContent=p.n;b.setAttribute('aria-label',p.t);b.setAttribute('aria-pressed','false');
+    b.addEventListener('click',function(e){e.stopPropagation();setActive(p.n)});host.appendChild(b);return b;});
+  listeners.push(function(){pins.forEach(function(b,i){b.setAttribute('aria-pressed',String(parts[i].n===active))});});
+
+  /* orbit */
+  var target=new THREE.Vector3(0.3,1.9,0),D0={th:0.62,ph:1.12,d:14},th=D0.th,ph=D0.ph,dist=D0.d,spin=false;
+  var clipOn=true,pinsOn=true,plane=new THREE.Plane(new THREE.Vector3(0,0,-1),0);renderer.clippingPlanes=[plane];
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+  function place(){camera.position.set(target.x+dist*Math.sin(ph)*Math.sin(th),target.y+dist*Math.cos(ph),target.z+dist*Math.sin(ph)*Math.cos(th));camera.lookAt(target);plane.normal.set(-Math.sin(th),0,-Math.cos(th));plane.constant=0;}
+  var ptrs=new Map(),pinch=0;
+  function pd(){var a=Array.from(ptrs.values());return Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)||1;}
+  cv.addEventListener('pointerdown',function(e){try{cv.setPointerCapture(e.pointerId)}catch(_){}ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});if(ptrs.size===2)pinch=pd();});
+  cv.addEventListener('pointermove',function(e){var p=ptrs.get(e.pointerId);if(!p)return;var dx=e.clientX-p.x,dy=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;
+    if(ptrs.size===1){th-=dx*0.008;ph=clamp(ph-dy*0.006,0.25,1.5);}
+    else if(ptrs.size===2){var d=pd();dist=clamp(dist*pinch/d,5,24);pinch=d;}place();});
+  ['pointerup','pointercancel'].forEach(function(ev){cv.addEventListener(ev,function(e){ptrs.delete(e.pointerId);});});
+  cv.addEventListener('wheel',function(e){e.preventDefault();dist=clamp(dist*(1+e.deltaY*0.001),5,24);place();},{passive:false});
+  place();
+
+  /* buttons */
+  function tog(id,fn){var b=document.getElementById(id);b.addEventListener('click',function(){var on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',String(on));fn(on);});return b;}
+  function setCut(on){cutMat.opacity=on?0.12:1;cutMat.transparent=on;cutMat.depthWrite=!on;cutMat.needsUpdate=true;}
+  tog('b-cut',setCut);
+  tog('b-clip',function(on){clipOn=on;renderer.clippingPlanes=on?[plane]:[];});
+  tog('b-pins',function(on){pinsOn=on;});
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  tog('b-spin',function(on){spin=on&&!reduce;});
+  document.getElementById('b-zin').addEventListener('click',function(){dist=clamp(dist*0.85,5,24);place();});
+  document.getElementById('b-zout').addEventListener('click',function(){dist=clamp(dist/0.85,5,24);place();});
+  document.getElementById('b-reset').addEventListener('click',function(){th=D0.th;ph=D0.ph;dist=D0.d;place();});
+
+  /* loop */
+  var v=new THREE.Vector3(),w=0,h=0;
+  function resize(){w=host.clientWidth;h=host.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+  if(window.ResizeObserver)new ResizeObserver(resize).observe(host);window.addEventListener('resize',resize);resize();
+  var t0=performance.now();
+  function frame(now){
+    requestAnimationFrame(frame);
+    if(!host.offsetWidth)return;
+    if(!w)resize();
+    var t=(now-t0)/1000;
+    if(spin){th+=0.004;place();}
+    flame.scale.set(1,1+0.18*Math.sin(t*14)+0.1*Math.sin(t*23),1);
+    fireLight.intensity=1.0+0.25*Math.sin(t*17);
+    renderer.render(scene,camera);
+    var cdx=Math.sin(th),cdz=Math.cos(th);
+    parts.forEach(function(p,i){
+      var px=p.p[0],pz=p.p[2];
+      if(clipOn){var k=px*cdx+pz*cdz;if(k>0){px-=k*cdx;pz-=k*cdz;}}
+      v.set(px,p.p[1],pz).applyMatrix4(group.matrixWorld).project(camera);
+      var x=(v.x*0.5+0.5)*w,y=(-v.y*0.5+0.5)*h;
+      pins[i].style.transform='translate('+x+'px,'+y+'px) translate(-50%,-50%)';
+      pins[i].style.display=(pinsOn&&v.z<1)?'':'none';
+    });
+  }
+  requestAnimationFrame(frame);
+})();
+})();
+</script>
+</body>
+</html>
